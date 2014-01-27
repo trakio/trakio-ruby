@@ -1,4 +1,4 @@
-# Official trak.o Ruby Library
+# Official trak.io Ruby Library
 
 # WARNING: Work in progress, this library is incomplete and not yet published as a gem.
 
