@@ -1,9 +1,6 @@
 require "trakio/version"
 
-module Trakio
+class Trakio
 
-  def hello
-    "Hello World!"
-  end
 
 end
