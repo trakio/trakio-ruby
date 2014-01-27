@@ -6,8 +6,8 @@ require 'trakio/version'
 Gem::Specification.new do |spec|
   spec.name          = "trakio-ruby"
   spec.version       = Trakio::VERSION
-  spec.authors       = ["Matthew Spence"]
-  spec.email         = ["matt@trak.io"]
+  spec.authors       = ["Matthew Spence", "Tobie Warburton"]
+  spec.email         = ["matt@trak.io", "tobie.warburton@gmail.com"]
   spec.description   = "Official trak.io ruby library for Ruby"
   spec.summary       = "Official trak.io ruby library for Ruby"
   spec.homepage      = "https://github.com/trakio/trakio-ruby"
@@ -22,4 +22,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'webmock'
+  spec.add_development_dependency 'fuubar'
 end
