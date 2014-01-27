@@ -1,3 +1,3 @@
-module Trakio
+class Trakio
   VERSION = "0.0.1"
 end
