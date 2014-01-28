@@ -30,7 +30,6 @@ describe Trakio do
     context "when an API token is provided" do
 
       it "creates a default Trakio::Interface" do
-        pending
         Trakio.init 'my_api_token'
       end
 
@@ -46,7 +45,6 @@ describe Trakio do
       context "when a channel is provided" do
 
         it "sets the channel option" do
-          pending
           Trakio.init 'my_api_token', channel: 'my-channel'
           expect(Trakio.channel).to eql 'my-channel'
         end
@@ -56,7 +54,6 @@ describe Trakio do
       context "when a https is provided" do
 
         it "sets https option" do
-          pending
           Trakio.init 'my_api_token', https: false
           expect(Trakio.https).to be_false
         end
@@ -66,7 +63,6 @@ describe Trakio do
       context "when a https isn't provided" do
 
         it "defaults to true" do
-          pending
           Trakio.init 'my_api_token'
           expect(Trakio.https).to be_true
         end
@@ -76,7 +72,6 @@ describe Trakio do
       context "when a host is provided" do
 
         it "sets host option" do
-          pending
           Trakio.init 'my_api_token', host: 'lvh.me:3007'
           expect(Trakio.host).to eql 'lvh.me:3007'
         end
@@ -86,7 +81,6 @@ describe Trakio do
       context "when a host isn't provided" do
 
         it "defaults to api.trak.io/v1" do
-          pending
           Trakio.init 'my_api_token'
           expect(Trakio.host).to eql 'api.trak.io/v1'
         end

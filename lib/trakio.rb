@@ -2,7 +2,20 @@ require "trakio/version"
 
 class Trakio
 
-  attr_accessor :default_instance
+  class << self
+    attr_accessor :default_instance
+
+    def init(*args)
+      @default_instance = Trakio.new(*args)
+    end
+
+    def method_missing(method, *args, &block)
+      # passes to the default_instance so that
+      # Trakio.channel returns Trakio.default_instance.channel
+      @default_instance.send(method, *args, &block)
+    end
+
+  end
 
   attr_accessor :api_token
 
