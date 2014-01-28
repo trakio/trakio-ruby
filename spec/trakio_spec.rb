@@ -5,21 +5,21 @@ describe Trakio do
   subject { Trakio }
 
   after {
-    # Remove the default instance
+    Trakio.default_instance = nil
   }
 
   describe '#default_instance' do
 
     context "when a default instance hasn't been created" do
       it "raises an exception" do
-        pending
         expect{ Trakio.default_instance }.to raise_error Trakio::Exceptions::UnInitiated
       end
     end
 
     context "when a default instance has already been created" do
       it "returns that" do
-        pending
+        Trakio.init 'my_api_token'
+        expect(Trakio.default_instance).to be_a Trakio
       end
     end
 

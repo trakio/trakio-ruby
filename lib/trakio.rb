@@ -2,11 +2,26 @@ require "trakio/version"
 
 class Trakio
 
+  class Exceptions
+    class UnInitiated < RuntimeError; end
+  end
+
   class << self
-    attr_accessor :default_instance
 
     def init(*args)
       @default_instance = Trakio.new(*args)
+    end
+
+    def default_instance
+      if @default_instance
+        @default_instance
+      else
+        raise Trakio::Exceptions::UnInitiated
+      end
+    end
+
+    def default_instance=(instance)
+      @default_instance = instance
     end
 
     def method_missing(method, *args, &block)
