@@ -181,7 +181,6 @@ describe Trakio do
       context "when a channel is provided" do
 
         it "sets channel for this instance" do
-          pending
           trakio = Trakio.new "my_api_token", channel: 'my-channel'
           expect(trakio.channel).to eql 'my-channel'
         end
@@ -191,8 +190,7 @@ describe Trakio do
       context "when a distinct_id is provided" do
 
         it "sets that for this instance" do
-          pending
-          Trakio.new "my_api_token", distinct_id: 'user@example.com'
+          trakio = Trakio.new "my_api_token", distinct_id: 'user@example.com'
           expect(trakio.distinct_id).to eql 'user@example.com'
         end
 
@@ -201,7 +199,6 @@ describe Trakio do
       context "when a https option is provided" do
 
         it "sets https option" do
-          pending
           trakio = Trakio.new 'my_api_token', https: false
           expect(trakio.https).to be_false
         end
@@ -211,7 +208,6 @@ describe Trakio do
       context "when a https option isn't provided" do
 
         it "defaults to true" do
-          pending
           trakio = Trakio.new 'my_api_token'
           expect(trakio.https).to be_true
         end
@@ -221,7 +217,6 @@ describe Trakio do
       context "when a host is provided" do
 
         it "sets host option" do
-          pending
           trakio = Trakio.new 'my_api_token', host: 'lvh.me:3007'
           expect(trakio.host).to eql 'lvh.me:3007'
         end
@@ -231,7 +226,6 @@ describe Trakio do
       context "when a host isn't provided" do
 
         it "defaults to api.trak.io/v1" do
-          pending
           trakio = Trakio.new 'my_api_token'
           expect(trakio.host).to eql 'api.trak.io/v1'
         end

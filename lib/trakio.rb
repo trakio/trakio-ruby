@@ -19,9 +19,9 @@ class Trakio
     @https = true
     @host = 'api.trak.io/v1'
 
-    %w{ https host channel distinct_id }.each do |name|
-      if params && params.has_key?(name)
-        instance_variable_set(name, params[name])
+    %w{https host channel distinct_id}.each do |name|
+      if params && params.has_key?(:"#{name}")
+        instance_variable_set("@#{name}", params[:"#{name}"])
       end
     end
   end
