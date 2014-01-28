@@ -66,4 +66,19 @@ class Trakio
     end
   end
 
+  def track
+  end
+
+  def identify
+  end
+
+  def alias
+  end
+
+  def annotate
+  end
+
+  def page_view
+  end
+
 end

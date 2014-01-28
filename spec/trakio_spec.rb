@@ -101,52 +101,69 @@ describe Trakio do
   end
 
   describe '#track' do
-
     it "calls track on the default Trakio instance" do
-      pending
-    end
+      default_instance = double(Trakio)
 
+      Trakio.default_instance = default_instance
+      expect(Trakio.default_instance).to receive(:track)
+
+      Trakio.track
+    end
   end
 
   describe '#identify' do
-
     it "calls alias on the default Trakio instance" do
-      pending
-    end
+      default_instance = double(Trakio)
 
+      Trakio.default_instance = default_instance
+      expect(Trakio.default_instance).to receive(:identify)
+
+      Trakio.identify
+    end
   end
 
   describe '#alias' do
-
     it "calls alias on the default Trakio instance" do
-      pending
-    end
+      default_instance = double(Trakio)
 
+      Trakio.default_instance = default_instance
+      expect(Trakio.default_instance).to receive(:alias)
+
+      Trakio.alias
+    end
   end
 
   describe '#annotate' do
 
     it "calls annotate on the default Trakio instance" do
-      pending
+      default_instance = double(Trakio)
+
+      Trakio.default_instance = default_instance
+      expect(Trakio.default_instance).to receive(:annotate)
+
+      Trakio.annotate
     end
 
   end
 
   describe '#page_view' do
 
-    it "calls annotate on the default Trakio instance" do
-      pending
+    it "calls page_view on the default Trakio instance" do
+      default_instance = double(Trakio)
+
+      Trakio.default_instance = default_instance
+      expect(Trakio.default_instance).to receive(:page_view)
+
+      Trakio.page_view
     end
 
   end
 
 
   describe '#distinct_id' do
-
     it "raise an error" do
       expect{ Trakio.distinct_id }.to raise_error Trakio::Exceptions::NoDistinctIdForDefaultInstance
     end
-
   end
 
   describe '#channel' do
@@ -158,7 +175,6 @@ describe Trakio do
   end
 
   describe '.initialize' do
-
     context "when an API token is provided" do
 
       it "creates a new Trakio instance" do
@@ -172,57 +188,45 @@ describe Trakio do
 
 
       context "when a channel is provided" do
-
         it "sets channel for this instance" do
           trakio = Trakio.new "my_api_token", channel: 'my-channel'
           expect(trakio.channel).to eql 'my-channel'
         end
-
       end
 
       context "when a distinct_id is provided" do
-
         it "sets that for this instance" do
           trakio = Trakio.new "my_api_token", distinct_id: 'user@example.com'
           expect(trakio.distinct_id).to eql 'user@example.com'
         end
-
       end
 
       context "when a https option is provided" do
-
         it "sets https option" do
           trakio = Trakio.new 'my_api_token', https: false
           expect(trakio.https).to be_false
         end
-
       end
 
       context "when a https option isn't provided" do
-
         it "defaults to true" do
           trakio = Trakio.new 'my_api_token'
           expect(trakio.https).to be_true
         end
-
       end
 
       context "when a host is provided" do
-
         it "sets host option" do
           trakio = Trakio.new 'my_api_token', host: 'lvh.me:3007'
           expect(trakio.host).to eql 'lvh.me:3007'
         end
-
       end
 
       context "when a host isn't provided" do
-
         it "defaults to api.trak.io/v1" do
           trakio = Trakio.new 'my_api_token'
           expect(trakio.host).to eql 'api.trak.io/v1'
         end
-
       end
 
     end
@@ -240,9 +244,7 @@ describe Trakio do
           expect{ Trakio.new }.to raise_error Trakio::Exceptions::UnInitiated
         end
       end
-
     end
-
 
   end
 
