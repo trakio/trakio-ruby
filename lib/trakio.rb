@@ -4,11 +4,18 @@ class Trakio
 
   class Exceptions
     class UnInitiated < RuntimeError; end
+    class MissingApiToken < RuntimeError; end
+    class NoDistinctIdForDefaultInstance < RuntimeError; end
   end
 
   class << self
 
     def init(*args)
+      api_token, params = args
+      raise Trakio::Exceptions::MissingApiToken unless api_token
+      if params and params.has_key?(:distinct_id)
+        raise Trakio::Exceptions::NoDistinctIdForDefaultInstance
+      end
       @default_instance = Trakio.new(*args)
     end
 
@@ -22,6 +29,10 @@ class Trakio
 
     def default_instance=(instance)
       @default_instance = instance
+    end
+
+    def distinct_id
+      raise Trakio::Exceptions::NoDistinctIdForDefaultInstance
     end
 
     def method_missing(method, *args, &block)
@@ -42,6 +53,7 @@ class Trakio
 
   def initialize(*args)
     api_token, params = args
+    api_token = Trakio.default_instance.api_token unless api_token
 
     @api_token = api_token
     @https = true

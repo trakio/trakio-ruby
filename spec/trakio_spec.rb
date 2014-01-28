@@ -36,8 +36,9 @@ describe Trakio do
       context "when a distinct_id is provided" do
 
         it "raises an exception" do
-          pending
-          expect{ Trakio.init 'my_api_token', distinct_id: 'user@example.com' }.to raise_error Trakio::Exceptions::NoDistinctIdForDefaultInstance
+          expect{
+            Trakio.init 'my_api_token', distinct_id: 'user@example.com'
+          }.to raise_error Trakio::Exceptions::NoDistinctIdForDefaultInstance
         end
 
       end
@@ -92,7 +93,6 @@ describe Trakio do
     context "when an API token isn't provided" do
 
       it "raises an exception" do
-        pending
         expect{ Trakio.init }.to raise_error Trakio::Exceptions::MissingApiToken
       end
 
@@ -144,7 +144,6 @@ describe Trakio do
   describe '#distinct_id' do
 
     it "raise an error" do
-      pending
       expect{ Trakio.distinct_id }.to raise_error Trakio::Exceptions::NoDistinctIdForDefaultInstance
     end
 
@@ -231,7 +230,6 @@ describe Trakio do
     context "when an API token isn't provided" do
 
       it "gets it from the default instance" do
-        pending
         Trakio.init "my_api_token"
         trakio = Trakio.new
         expect(trakio.api_token).to eql 'my_api_token'
@@ -239,7 +237,6 @@ describe Trakio do
 
       context "when there is no default instance" do
         it "raises an exception" do
-          pending
           expect{ Trakio.new }.to raise_error Trakio::Exceptions::UnInitiated
         end
       end
