@@ -1,5 +1,4 @@
 require "trakio/version"
-
 class Trakio
 
   class Exceptions
@@ -35,6 +34,10 @@ class Trakio
       raise Trakio::Exceptions::NoDistinctIdForDefaultInstance
     end
 
+    def distinct_id=(distinct_id)
+      raise Trakio::Exceptions::NoDistinctIdForDefaultInstance
+    end
+
     def method_missing(method, *args, &block)
       # passes to the default_instance so that
       # Trakio.channel returns Trakio.default_instance.channel
@@ -50,6 +53,7 @@ class Trakio
   attr_accessor :host
   attr_accessor :channel
   attr_accessor :distinct_id
+  attr_reader :default
 
   def initialize(*args)
     api_token, params = args

@@ -380,6 +380,7 @@ describe Trakio do
 
       it "raises an exception" do
         pending
+        Trakio.init 'my_api_token'
         expect{ Trakio.default_instance.distinct_id = 'user@example.com' }.to raise_error Trakio::Exceptions::NoDistinctIdForDefaultInstance
       end
 
