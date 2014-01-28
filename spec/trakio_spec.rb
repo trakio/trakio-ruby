@@ -169,7 +169,12 @@ describe Trakio do
   describe '#channel' do
 
     it "calls channel on the default Trakio instance" do
-      pending
+      default_instance = double(Trakio)
+
+      Trakio.default_instance = default_instance
+      expect(Trakio.default_instance).to receive(:channel)
+
+      Trakio.channel
     end
 
   end

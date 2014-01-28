@@ -1,4 +1,5 @@
 require "trakio/version"
+
 class Trakio
 
   class Exceptions
@@ -51,9 +52,8 @@ class Trakio
   # the following are set via params
   attr_accessor :https
   attr_accessor :host
-  attr_accessor :channel
+  attr_accessor :channel # channel is some form of category
   attr_accessor :distinct_id
-  attr_reader :default
 
   def initialize(*args)
     api_token, params = args
@@ -83,6 +83,13 @@ class Trakio
   end
 
   def page_view
+  end
+
+  def build_api_call(endpoint, params={})
+    request = {
+      token: @api_token,
+      data: params
+    }
   end
 
 end
