@@ -64,13 +64,13 @@ class Trakio
     @host = 'api.trak.io/v1'
 
     %w{https host channel distinct_id}.each do |name|
-      if params && params.has_key?(:"#{name}")
-        instance_variable_set("@#{name}", params[:"#{name}"])
+      if params && params.has_key?(name.to_sym)
+        instance_variable_set("@#{name}", params[name.to_sym])
       end
     end
   end
 
-  def track
+  def track(*args)
   end
 
   def identify
@@ -85,7 +85,7 @@ class Trakio
   def page_view
   end
 
-  def build_api_call(endpoint, params={})
+  def build_request(endpoint, params)
     request = {
       token: @api_token,
       data: params

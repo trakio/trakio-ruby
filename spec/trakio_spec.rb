@@ -260,14 +260,14 @@ describe Trakio do
 
       context "when an event is provided" do
 
-        it "sends a track requst to api.trak.io" do
+        it "sends a track request to api.trak.io" do
           pending
           trakio.track 'user@example.com', 'my-event'
         end
 
         context "when a channel is provided" do
 
-          it "sends a track requst to api.trak.io" do
+          it "sends a track request to api.trak.io" do
             pending
             trakio = Trakio.new 'my_api_token'
             trakio.track 'user@example.com', 'my-event', 'my-channel'
@@ -277,7 +277,7 @@ describe Trakio do
 
         context "when a channel isn't provided and there is one on the instance" do
 
-          it "sends a track requst to api.trak.io" do
+          it "sends a track request to api.trak.io" do
             pending
             trakio = Trakio.new 'my_api_token', channel: 'my-channel'
             trakio.track 'user@example.com', 'my-event'
@@ -287,7 +287,7 @@ describe Trakio do
 
         context "when properties are provided" do
 
-          it "sends a track requst to api.trak.io" do
+          it "sends a track request to api.trak.io" do
             pending
             trakio = Trakio.new 'my_api_token'
             trakio.track 'user@example.com', 'my-event', 'my-channel', { foo: 'bar' }
@@ -297,7 +297,7 @@ describe Trakio do
 
         context "when arguments are provided as a hash" do
 
-          it "sends a track requst to api.trak.io" do
+          it "sends a track request to api.trak.io" do
             pending
             trakio = Trakio.new 'my_api_token'
             trakio.track distinct_id: 'user@example.com', event: 'my-event', channel: 'my-channel', properties: { foo: 'bar' }
@@ -337,7 +337,7 @@ describe Trakio do
 
       context "when an event is provided" do
 
-        it "sends a track requst to api.trak.io" do
+        it "sends a track request to api.trak.io" do
           pending
           trakio = Trakio.new 'my_api_token', distinct_id: 'user@example.com'
           trakio.track 'my-event'
