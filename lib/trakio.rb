@@ -7,7 +7,7 @@ class Trakio
 
   class Exceptions
     class UnInitiated < RuntimeError; end
-    class MissingApiToken < RuntimeError; end
+    class InvalidToken < RuntimeError; end
     class NoDistinctIdForDefaultInstance < RuntimeError; end
   end
 
@@ -15,7 +15,7 @@ class Trakio
 
     def init(*args)
       api_token, params = args
-      raise Trakio::Exceptions::MissingApiToken unless api_token
+      raise Trakio::Exceptions::InvalidToken.new('Missing API Token') unless api_token
       if params and params.has_key?(:distinct_id)
         raise Trakio::Exceptions::NoDistinctIdForDefaultInstance
       end
@@ -62,7 +62,7 @@ class Trakio
     api_token, params = args
     api_token = Trakio.default_instance.api_token unless api_token
 
-    @api_token = api_token or raise Trakio::Exceptions::MissingApiToken
+    @api_token = api_token or raise Trakio::Exceptions::InvalidToken.new('Missing API Token')
     @https = true
     @host = 'api.trak.io/v1'
 
@@ -114,7 +114,8 @@ class Trakio
     send_request('identify', params)
   end
 
-  def alias
+  def alias(parameters)
+
   end
 
   def annotate

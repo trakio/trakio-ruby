@@ -486,7 +486,17 @@ describe Trakio do
 
   describe '.alias' do
 
-    pending
+    context "when an array alias is provided" do
+      pending
+    end
+
+    context "when a string alias is provided" do
+      pending
+    end
+
+    context "when no alias is provided" do
+      pending
+    end
 
   end
 
