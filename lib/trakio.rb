@@ -79,6 +79,7 @@ class Trakio
     distinct_id = parameters[:distinct_id]
     distinct_id = @distinct_id unless distinct_id
     raise "No distinct_id specified" unless distinct_id
+
     event = parameters[:event] or raise "No event specified"
 
     channel = parameters[:channel]

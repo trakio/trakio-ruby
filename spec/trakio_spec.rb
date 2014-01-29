@@ -394,9 +394,20 @@ describe Trakio do
       context "when an event is provided" do
 
         it "sends a track request to api.trak.io" do
-          pending
+          stub_request(:post, "https://api.trak.io/v1/track").
+            with(:body => {
+              token: 'my_api_token',
+              data: {
+                distinct_id: 'user@example.com',
+                event: 'my-event',
+              }
+            }).to_return(:body => {
+              status: 'success',
+              trak_id: '1234567890'
+            }.to_json)
+
           trakio = Trakio.new 'my_api_token', distinct_id: 'user@example.com'
-          trakio.track 'my-event'
+          trakio.track event: 'my-event'
         end
 
       end
