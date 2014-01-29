@@ -1,4 +1,5 @@
 require "trakio/version"
+require "rest_client"
 
 class Trakio
 
@@ -59,7 +60,7 @@ class Trakio
     api_token, params = args
     api_token = Trakio.default_instance.api_token unless api_token
 
-    @api_token = api_token
+    @api_token = api_token or raise Trakio::Exceptions::MissingApiToken
     @https = true
     @host = 'api.trak.io/v1'
 
@@ -70,7 +71,19 @@ class Trakio
     end
   end
 
-  def track(*args)
+  def track(parameters)
+    distinct_id = parameters[:distinct_id] or @distinct_id
+    event = parameters[:event] or raise "No event specified"
+    channel = parameters[:channel] or @channel
+    properties = parameters[:properties] or {}
+    params = {
+      distinct_id: distinct_id,
+      event: event,
+      properties: properties
+    }
+    params[:channel] = channel if channel
+
+    send_request('track', params)
   end
 
   def identify
@@ -85,11 +98,10 @@ class Trakio
   def page_view
   end
 
-  def build_request(endpoint, params)
-    request = {
-      token: @api_token,
-      data: params
-    }
+  def send_request(endpoint, params)
+    url = "https://#{@host}/#{endpoint}"
+    data = { token: @api_token, data: params }.to_json
+    RestClient.post url, data, :content_type => :json, :accept => :json
   end
 
 end

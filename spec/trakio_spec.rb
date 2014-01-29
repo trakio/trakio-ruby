@@ -107,7 +107,7 @@ describe Trakio do
       Trakio.default_instance = default_instance
       expect(Trakio.default_instance).to receive(:track)
 
-      Trakio.track
+      Trakio.track distinct_id: 'tobie.warburton@gmail.com', event: 'test-event'
     end
   end
 
@@ -261,16 +261,16 @@ describe Trakio do
       context "when an event is provided" do
 
         it "sends a track request to api.trak.io" do
-          pending
-          trakio.track 'user@example.com', 'my-event'
+          trakio = Trakio.new 'my_api_token'
+          trakio.track distinct_id: 'user@example.com', event: 'my-event'
         end
 
         context "when a channel is provided" do
 
           it "sends a track request to api.trak.io" do
-            pending
             trakio = Trakio.new 'my_api_token'
-            trakio.track 'user@example.com', 'my-event', 'my-channel'
+            trakio.track distinct_id: 'user@example.com', event: 'my-event',
+              channel: 'my-channel'
           end
 
         end
