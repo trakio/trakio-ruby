@@ -124,7 +124,8 @@ class Trakio
   end
 
   def send_request(endpoint, params)
-    url = "https://#{@host}/#{endpoint}"
+    protocol = @https ? "https" : "http"
+    url = "#{@protocol}://#{@host}/#{endpoint}"
     data = { token: @api_token, data: params }.to_json
     resp = RestClient.post url, data, :content_type => :json, :accept => :json
     JSON.parse(resp.body, :symbolize_names => true)
