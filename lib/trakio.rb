@@ -97,7 +97,21 @@ class Trakio
     send_request('track', params)
   end
 
-  def identify
+  def identify(parameters)
+    parameters.default = nil
+
+    distinct_id = parameters[:distinct_id]
+    distinct_id = @distinct_id unless distinct_id
+    raise "No distinct_id specified" unless distinct_id
+
+    properties = parameters[:properties]
+    raise "Properties must be specified" unless properties and properties.length > 0
+
+    params = {
+      distinct_id: distinct_id,
+      properties: properties,
+    }
+    send_request('identify', params)
   end
 
   def alias
