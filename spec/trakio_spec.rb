@@ -1,4 +1,7 @@
 require 'spec_helper'
+require 'webmock/rspec'
+require 'json'
+
 
 describe Trakio do
 
@@ -261,16 +264,47 @@ describe Trakio do
       context "when an event is provided" do
 
         it "sends a track request to api.trak.io" do
+          stub_request(:post, "https://api.trak.io/v1/track").
+            with(:body => {
+              token: 'my_api_token',
+              data: {
+                distinct_id: 'user@example.com',
+                event: 'my-event'
+              }
+            }).to_return(:body => {
+              status: 'success',
+              trak_id: '1234567890'
+            }.to_json)
+
           trakio = Trakio.new 'my_api_token'
-          trakio.track distinct_id: 'user@example.com', event: 'my-event'
+          resp = trakio.track distinct_id: 'user@example.com', event: 'my-event'
+
+          expect(resp[:status]).to eql 'success'
+          expect(resp[:trak_id]).to eql '1234567890'
         end
 
         context "when a channel is provided" do
 
           it "sends a track request to api.trak.io" do
+            stub_request(:post, "https://api.trak.io/v1/track").
+              with(:body => {
+                token: 'my_api_token',
+                data: {
+                  distinct_id: 'user@example.com',
+                  event: 'my-event',
+                  channel: 'my-channel'
+                }
+              }).to_return(:body => {
+                status: 'success',
+                trak_id: '1234567890'
+              }.to_json)
+
             trakio = Trakio.new 'my_api_token'
-            trakio.track distinct_id: 'user@example.com', event: 'my-event',
+            resp = trakio.track distinct_id: 'user@example.com', event: 'my-event',
               channel: 'my-channel'
+
+            expect(resp[:status]).to eql 'success'
+            expect(resp[:trak_id]).to eql '1234567890'
           end
 
         end
@@ -278,9 +312,24 @@ describe Trakio do
         context "when a channel isn't provided and there is one on the instance" do
 
           it "sends a track request to api.trak.io" do
-            pending
-            trakio = Trakio.new 'my_api_token', channel: 'my-channel'
-            trakio.track 'user@example.com', 'my-event'
+            stub_request(:post, "https://api.trak.io/v1/track").
+              with(:body => {
+                token: 'my_api_token',
+                data: {
+                  distinct_id: 'user@example.com',
+                  event: 'my-event',
+                  channel: 'my-channel'
+                }
+              }).to_return(:body => {
+                status: 'success',
+                trak_id: '1234567890'
+              }.to_json)
+
+            trakio = Trakio.new "my_api_token", channel: 'my-channel'
+            resp = trakio.track distinct_id: 'user@example.com', event: 'my-event'
+
+            expect(resp[:status]).to eql 'success'
+            expect(resp[:trak_id]).to eql '1234567890'
           end
 
         end
@@ -288,9 +337,28 @@ describe Trakio do
         context "when properties are provided" do
 
           it "sends a track request to api.trak.io" do
-            pending
-            trakio = Trakio.new 'my_api_token'
-            trakio.track 'user@example.com', 'my-event', 'my-channel', { foo: 'bar' }
+            stub_request(:post, "https://api.trak.io/v1/track").
+              with(:body => {
+                token: 'my_api_token',
+                data: {
+                  distinct_id: 'user@example.com',
+                  event: 'my-event',
+                  channel: 'my-channel',
+                  properties: {
+                    foo:  'bar'
+                  }
+                }
+              }).to_return(:body => {
+                status: 'success',
+                trak_id: '1234567890'
+              }.to_json)
+
+            trakio = Trakio.new "my_api_token"
+            resp = trakio.track distinct_id: 'user@example.com', event: 'my-event',
+              channel: 'my-channel', properties: { foo: 'bar' }
+
+            expect(resp[:status]).to eql 'success'
+            expect(resp[:trak_id]).to eql '1234567890'
           end
 
         end

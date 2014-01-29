@@ -1,5 +1,7 @@
 require "trakio/version"
 require "rest_client"
+require "json"
+
 
 class Trakio
 
@@ -72,16 +74,24 @@ class Trakio
   end
 
   def track(parameters)
-    distinct_id = parameters[:distinct_id] or @distinct_id
+    parameters.default = nil
+
+    distinct_id = parameters[:distinct_id]
+    distinct_id = @distinct_id unless distinct_id
+    raise "No distinct_id specified" unless distinct_id
     event = parameters[:event] or raise "No event specified"
-    channel = parameters[:channel] or @channel
-    properties = parameters[:properties] or {}
+
+    channel = parameters[:channel]
+    channel = @channel unless channel
+
+    properties = parameters[:properties]
+
     params = {
       distinct_id: distinct_id,
       event: event,
-      properties: properties
     }
     params[:channel] = channel if channel
+    params[:properties] = properties if properties
 
     send_request('track', params)
   end
@@ -101,7 +111,8 @@ class Trakio
   def send_request(endpoint, params)
     url = "https://#{@host}/#{endpoint}"
     data = { token: @api_token, data: params }.to_json
-    RestClient.post url, data, :content_type => :json, :accept => :json
+    resp = RestClient.post url, data, :content_type => :json, :accept => :json
+    JSON.parse(resp.body, :symbolize_names => true)
   end
 
 end
