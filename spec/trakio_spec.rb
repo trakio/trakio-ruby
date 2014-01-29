@@ -363,24 +363,13 @@ describe Trakio do
 
         end
 
-        context "when arguments are provided as a hash" do
-
-          it "sends a track request to api.trak.io" do
-            pending
-            trakio = Trakio.new 'my_api_token'
-            trakio.track distinct_id: 'user@example.com', event: 'my-event', channel: 'my-channel', properties: { foo: 'bar' }
-          end
-
-        end
-
       end
 
       context "when an event isn't provided" do
 
         it "raises an exception" do
-          pending
           trakio = Trakio.new 'my_api_token'
-          trakio.track 'user@example.com'
+          expect { trakio.track distinct_id: 'user@example.com' }.to raise_error RuntimeError
         end
 
       end
@@ -392,9 +381,8 @@ describe Trakio do
       context "when an event is provided" do
 
         it "raises an error" do
-          pending
           trakio = Trakio.new 'my_api_token'
-          trakio.track 'my-event'
+          expect { trakio.track event: 'my-event' }.to raise_error RuntimeError
         end
 
       end
@@ -452,9 +440,8 @@ describe Trakio do
     context "when this is the default Interface" do
 
       it "raises an exception" do
-        pending
         Trakio.init 'my_api_token'
-        expect{ Trakio.default_instance.distinct_id = 'user@example.com' }.to raise_error Trakio::Exceptions::NoDistinctIdForDefaultInstance
+        expect{ Trakio.distinct_id = 'user@example.com' }.to raise_error Trakio::Exceptions::NoDistinctIdForDefaultInstance
       end
 
     end
