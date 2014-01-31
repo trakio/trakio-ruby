@@ -96,7 +96,7 @@ describe Trakio do
     context "when an API token isn't provided" do
 
       it "raises an exception" do
-        expect{ Trakio.init }.to raise_error Trakio::Exceptions::MissingApiToken
+        expect{ Trakio.init }.to raise_error Trakio::Exceptions::InvalidToken
       end
 
     end
