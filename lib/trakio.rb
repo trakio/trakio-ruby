@@ -115,13 +115,27 @@ class Trakio
   end
 
   def alias(parameters)
+    parameters.default = nil
 
+    distinct_id = parameters[:distinct_id]
+    distinct_id = @distinct_id unless distinct_id
+    raise "No distinct_id specified" unless distinct_id
+
+    alias_ = parameters[:alias]
+    raise "No alias specified" unless alias_
+    raise "alias must be string or array" unless alias_.is_a?(String) or alias_.is_a?(Array)
+
+    params = {
+      distinct_id: distinct_id,
+      alias: alias_,
+    }
+    send_request('alias', params)
   end
 
-  def annotate
+  def annotate(parameters)
   end
 
-  def page_view
+  def page_view(parameters)
   end
 
   def send_request(endpoint, params)

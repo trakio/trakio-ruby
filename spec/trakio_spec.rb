@@ -487,15 +487,35 @@ describe Trakio do
   describe '.alias' do
 
     context "when an array alias is provided" do
-      pending
+      it "sends an array" do
+        pending
+      end
     end
 
     context "when a string alias is provided" do
-      pending
+      it "sends a string" do
+        pending
+      end
     end
 
     context "when no alias is provided" do
-      pending
+      it "raises an error" do
+        pending
+      end
+    end
+
+    context "when no distinct_id is provided" do
+      context "when there is one set on the instance" do
+        it "sends a request" do
+          pending
+        end
+      end
+
+      context "when there is not one set on the instance" do
+        it "raises an error" do
+          pending
+        end
+      end
     end
 
   end
