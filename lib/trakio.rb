@@ -133,6 +133,23 @@ class Trakio
   end
 
   def annotate(parameters)
+    parameters.default = nil
+
+    event = parameters[:event]
+    raise "No event specified" unless event
+
+    properties = parameters[:properties]
+    properties = {} unless properties
+
+    channel = parameters[:channel]
+    channel = @channel unless channel
+
+    params = {
+      event: event,
+    }
+    params[:channel] = channel if channel
+    params[:properties] = properties if properties
+    send_request('alias', params)
   end
 
   def page_view(parameters)

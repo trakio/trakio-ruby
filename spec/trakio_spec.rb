@@ -556,7 +556,41 @@ describe Trakio do
 
   describe '.annotate' do
 
-    pending
+    context "when an event is provided" do
+
+      context "when properties are provided" do
+        pending
+      end
+
+      context "when properties are not provided" do
+        pending
+      end
+    end
+
+    context "when an event is not provided" do
+
+      context "when a channel is provided" do
+        it "should raise an error" do
+          trakio = Trakio.new 'my_api_token'
+          expect { trakio.annotate channel: 'channel' }.to raise_error RuntimeError
+        end
+      end
+
+      context "when properties are provided" do
+        it "should raise an error" do
+          trakio = Trakio.new 'my_api_token'
+          expect { trakio.annotate properties: { name: 'tobie' } }.to raise_error RuntimeError
+        end
+      end
+
+      context "when no arguments are provided" do
+        it "should raise an error" do
+          trakio = Trakio.new 'my_api_token'
+          expect { trakio.annotate }.to raise_error ArgumentError
+        end
+      end
+
+    end
 
   end
 
