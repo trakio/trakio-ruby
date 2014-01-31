@@ -252,7 +252,7 @@ describe Trakio do
       context "when an event is provided" do
 
         it "sends a track request to api.trak.io" do
-          stub_request(:post, "https://api.trak.io/v1/track").
+          stub = stub_request(:post, "https://api.trak.io/v1/track").
             with(:body => {
               token: 'my_api_token',
               data: {
@@ -269,12 +269,14 @@ describe Trakio do
 
           expect(resp[:status]).to eql 'success'
           expect(resp[:trak_id]).to eql '1234567890'
+
+          stub.should have_been_requested
         end
 
         context "when a channel is provided" do
 
           it "sends a track request to api.trak.io" do
-            stub_request(:post, "https://api.trak.io/v1/track").
+            stub = stub_request(:post, "https://api.trak.io/v1/track").
               with(:body => {
                 token: 'my_api_token',
                 data: {
@@ -293,6 +295,8 @@ describe Trakio do
 
             expect(resp[:status]).to eql 'success'
             expect(resp[:trak_id]).to eql '1234567890'
+
+            stub.should have_been_requested
           end
 
         end
@@ -300,7 +304,7 @@ describe Trakio do
         context "when a channel isn't provided and there is one on the instance" do
 
           it "sends a track request to api.trak.io" do
-            stub_request(:post, "https://api.trak.io/v1/track").
+            stub = stub_request(:post, "https://api.trak.io/v1/track").
               with(:body => {
                 token: 'my_api_token',
                 data: {
@@ -318,6 +322,8 @@ describe Trakio do
 
             expect(resp[:status]).to eql 'success'
             expect(resp[:trak_id]).to eql '1234567890'
+
+            stub.should have_been_requested
           end
 
         end
@@ -325,7 +331,7 @@ describe Trakio do
         context "when properties are provided" do
 
           it "sends a track request to api.trak.io" do
-            stub_request(:post, "https://api.trak.io/v1/track").
+            stub = stub_request(:post, "https://api.trak.io/v1/track").
               with(:body => {
                 token: 'my_api_token',
                 data: {
@@ -347,6 +353,8 @@ describe Trakio do
 
             expect(resp[:status]).to eql 'success'
             expect(resp[:trak_id]).to eql '1234567890'
+
+            stub.should have_been_requested
           end
 
         end
@@ -382,7 +390,7 @@ describe Trakio do
       context "when an event is provided" do
 
         it "sends a track request to api.trak.io" do
-          stub_request(:post, "https://api.trak.io/v1/track").
+          stub = stub_request(:post, "https://api.trak.io/v1/track").
             with(:body => {
               token: 'my_api_token',
               data: {
@@ -396,6 +404,8 @@ describe Trakio do
 
           trakio = Trakio.new 'my_api_token', distinct_id: 'user@example.com'
           trakio.track event: 'my-event'
+
+          stub.should have_been_requested
         end
 
       end
@@ -408,7 +418,7 @@ describe Trakio do
     context "when a distinct_id is provided" do
       context "when properties are provided" do
         it "sends an identify request" do
-          stub_request(:post, "https://api.trak.io/v1/identify").
+          stub = stub_request(:post, "https://api.trak.io/v1/identify").
             with(:body => {
               token: 'my_api_token',
               data: {
@@ -425,6 +435,8 @@ describe Trakio do
 
           trakio = Trakio.new 'my_api_token'
           trakio.identify distinct_id: 'user@example.com', properties: { name: 'Tobie' }
+
+          stub.should have_been_requested
         end
       end
     end
@@ -432,7 +444,7 @@ describe Trakio do
     context "when a distinct_id isn't provided but is set on instance" do
       context "when properties are provided" do
         it "sends an identify request" do
-          stub_request(:post, "https://api.trak.io/v1/identify").
+          stub = stub_request(:post, "https://api.trak.io/v1/identify").
             with(:body => {
               token: 'my_api_token',
               data: {
@@ -449,6 +461,8 @@ describe Trakio do
 
           trakio = Trakio.new 'my_api_token', distinct_id: 'user@example.com'
           trakio.identify properties: { name: 'Tobie' }
+
+          stub.should have_been_requested
         end
       end
     end
@@ -476,7 +490,7 @@ describe Trakio do
 
     context "when an array alias is provided" do
       it "sends an array" do
-        stub_request(:post, "https://api.trak.io/v1/alias").
+        stub = stub_request(:post, "https://api.trak.io/v1/alias").
           with(:body => {
             token: 'my_api_token',
             data: {
@@ -493,12 +507,14 @@ describe Trakio do
 
         trakio = Trakio.new 'my_api_token'
         trakio.alias distinct_id: 'user@example.com', alias: ['alias1@example.com']
+
+        stub.should have_been_requested
       end
     end
 
     context "when a string alias is provided" do
       it "sends a string" do
-        stub_request(:post, "https://api.trak.io/v1/alias").
+        stub = stub_request(:post, "https://api.trak.io/v1/alias").
           with(:body => {
             token: 'my_api_token',
             data: {
@@ -513,6 +529,8 @@ describe Trakio do
 
         trakio = Trakio.new 'my_api_token'
         trakio.alias distinct_id: 'user@example.com', alias: 'alias1@example.com'
+
+        stub.should have_been_requested
       end
     end
 
@@ -526,7 +544,7 @@ describe Trakio do
     context "when no distinct_id is provided" do
       context "when there is one set on the instance" do
         it "sends a request" do
-          stub_request(:post, "https://api.trak.io/v1/alias").
+          stub = stub_request(:post, "https://api.trak.io/v1/alias").
             with(:body => {
               token: 'my_api_token',
               data: {
@@ -541,6 +559,8 @@ describe Trakio do
 
           trakio = Trakio.new 'my_api_token', distinct_id: 'user@example.com'
           trakio.alias alias: 'alias1@example.com'
+
+          stub.should have_been_requested
         end
       end
 
@@ -560,7 +580,7 @@ describe Trakio do
 
       context "when a channel is provided" do
         it "should send a request with the channel" do
-          stub_request(:post, "https://api.trak.io/v1/annotate").
+          stub = stub_request(:post, "https://api.trak.io/v1/annotate").
             with(:body => {
             token: 'my_api_token',
             data: {
@@ -575,13 +595,15 @@ describe Trakio do
 
           trakio = Trakio.new 'my_api_token'
           trakio.annotate event: 'event', channel: 'channel'
+
+          stub.should have_been_requested
         end
       end
 
       context "when a channel isnt provided" do
         context "when there is a channel set on the instance" do
           it "should send a request with the channel" do
-            stub_request(:post, "https://api.trak.io/v1/annotate").
+            stub = stub_request(:post, "https://api.trak.io/v1/annotate").
               with(:body => {
               token: 'my_api_token',
               data: {
@@ -596,13 +618,15 @@ describe Trakio do
 
             trakio = Trakio.new 'my_api_token', channel: 'channel'
             trakio.annotate event: 'event'
+
+            stub.should have_been_requested
           end
         end
       end
 
       context "when properties are provided" do
         it "should send a request with the properties" do
-          stub_request(:post, "https://api.trak.io/v1/annotate").
+          stub = stub_request(:post, "https://api.trak.io/v1/annotate").
             with(:body => {
               token: 'my_api_token',
               data: {
@@ -618,12 +642,14 @@ describe Trakio do
 
           trakio = Trakio.new 'my_api_token'
           trakio.annotate event: 'event', properties: { details: 'details' }
+
+          stub.should have_been_requested
         end
       end
 
       context "when properties are not provided" do
         it "should send a request with empty properties" do
-          stub_request(:post, "https://api.trak.io/v1/annotate").
+          stub = stub_request(:post, "https://api.trak.io/v1/annotate").
             with(:body => {
               token: 'my_api_token',
               data: {
@@ -637,6 +663,8 @@ describe Trakio do
 
           trakio = Trakio.new 'my_api_token'
           trakio.annotate event: 'event'
+
+          stub.should have_been_requested
         end
       end
     end
