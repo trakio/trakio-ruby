@@ -152,9 +152,6 @@ class Trakio
     send_request('annotate', params)
   end
 
-  def page_view(parameters)
-  end
-
   def send_request(endpoint, params)
     protocol = @https ? "https" : "http"
     url = "#{protocol}://#{@host}/#{endpoint}"

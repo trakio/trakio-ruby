@@ -668,12 +668,6 @@ describe Trakio do
 
   end
 
-  describe '.page_view' do
-
-    pending
-
-  end
-
   describe '.distinct_id=' do
 
     it "sets the distinct_id to be used by this Interface" do
