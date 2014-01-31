@@ -47,58 +47,46 @@ describe Trakio do
       end
 
       context "when a channel is provided" do
-
         it "sets the channel option" do
           Trakio.init 'my_api_token', channel: 'my-channel'
           expect(Trakio.channel).to eql 'my-channel'
         end
-
       end
 
       context "when a https is provided" do
-
         it "sets https option" do
           Trakio.init 'my_api_token', https: false
           expect(Trakio.https).to be_false
         end
-
       end
 
       context "when a https isn't provided" do
-
         it "defaults to true" do
           Trakio.init 'my_api_token'
           expect(Trakio.https).to be_true
         end
-
       end
 
       context "when a host is provided" do
-
         it "sets host option" do
           Trakio.init 'my_api_token', host: 'lvh.me:3007'
           expect(Trakio.host).to eql 'lvh.me:3007'
         end
-
       end
 
       context "when a host isn't provided" do
-
         it "defaults to api.trak.io/v1" do
           Trakio.init 'my_api_token'
           expect(Trakio.host).to eql 'api.trak.io/v1'
         end
-
       end
 
     end
 
     context "when an API token isn't provided" do
-
       it "raises an exception" do
         expect{ Trakio.init }.to raise_error Trakio::Exceptions::InvalidToken
       end
-
     end
 
   end
@@ -488,32 +476,78 @@ describe Trakio do
 
     context "when an array alias is provided" do
       it "sends an array" do
-        pending
+        stub_request(:post, "https://api.trak.io/v1/alias").
+          with(:body => {
+            token: 'my_api_token',
+            data: {
+              distinct_id: 'user@example.com',
+              alias: [
+                'alias1@example.com',
+              ],
+            }
+          }).to_return(:body => {
+            status: 'success',
+            trak_id: '1234567890',
+            distinct_ids: ['user@example.com', 'alias1@example.com'],
+          }.to_json)
+
+        trakio = Trakio.new 'my_api_token'
+        trakio.alias distinct_id: 'user@example.com', alias: ['alias1@example.com']
       end
     end
 
     context "when a string alias is provided" do
       it "sends a string" do
-        pending
+        stub_request(:post, "https://api.trak.io/v1/alias").
+          with(:body => {
+            token: 'my_api_token',
+            data: {
+              distinct_id: 'user@example.com',
+              alias: 'alias1@example.com',
+            }
+          }).to_return(:body => {
+            status: 'success',
+            trak_id: '1234567890',
+            distinct_ids: ['user@example.com', 'alias1@example.com'],
+          }.to_json)
+
+        trakio = Trakio.new 'my_api_token'
+        trakio.alias distinct_id: 'user@example.com', alias: 'alias1@example.com'
       end
     end
 
     context "when no alias is provided" do
       it "raises an error" do
-        pending
+        trakio = Trakio.new 'my_api_token'
+        expect { trakio.alias distinct_id: 'user@example.com' }.to raise_error RuntimeError
       end
     end
 
     context "when no distinct_id is provided" do
       context "when there is one set on the instance" do
         it "sends a request" do
-          pending
+          stub_request(:post, "https://api.trak.io/v1/alias").
+            with(:body => {
+              token: 'my_api_token',
+              data: {
+                distinct_id: 'user@example.com',
+                alias: 'alias1@example.com',
+              }
+            }).to_return(:body => {
+              status: 'success',
+              trak_id: '1234567890',
+              distinct_ids: ['user@example.com', 'alias1@example.com'],
+            }.to_json)
+
+          trakio = Trakio.new 'my_api_token', distinct_id: 'user@example.com'
+          trakio.alias alias: 'alias1@example.com'
         end
       end
 
       context "when there is not one set on the instance" do
         it "raises an error" do
-          pending
+          trakio = Trakio.new 'my_api_token'
+          expect { trakio.alias alias: 'alias1@example.com' }.to raise_error RuntimeError
         end
       end
     end
