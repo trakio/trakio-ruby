@@ -558,12 +558,86 @@ describe Trakio do
 
     context "when an event is provided" do
 
+      context "when a channel is provided" do
+        it "should send a request with the channel" do
+          stub_request(:post, "https://api.trak.io/v1/annotate").
+            with(:body => {
+            token: 'my_api_token',
+            data: {
+              event: 'event',
+              channel: 'channel',
+              properties: {},
+            }
+          }).to_return(:body => {
+            status: 'success',
+            trak_id: '1234567890',
+          }.to_json)
+
+          trakio = Trakio.new 'my_api_token'
+          trakio.annotate event: 'event', channel: 'channel'
+        end
+      end
+
+      context "when a channel isnt provided" do
+        context "when there is a channel set on the instance" do
+          it "should send a request with the channel" do
+            stub_request(:post, "https://api.trak.io/v1/annotate").
+              with(:body => {
+              token: 'my_api_token',
+              data: {
+                event: 'event',
+                channel: 'channel',
+                properties: {},
+              }
+            }).to_return(:body => {
+              status: 'success',
+              trak_id: '1234567890',
+            }.to_json)
+
+            trakio = Trakio.new 'my_api_token', channel: 'channel'
+            trakio.annotate event: 'event'
+          end
+        end
+      end
+
       context "when properties are provided" do
-        pending
+        it "should send a request with the properties" do
+          stub_request(:post, "https://api.trak.io/v1/annotate").
+            with(:body => {
+              token: 'my_api_token',
+              data: {
+                event: 'event',
+                properties: {
+                  details: 'details',
+                },
+              }
+            }).to_return(:body => {
+              status: 'success',
+              trak_id: '1234567890',
+            }.to_json)
+
+          trakio = Trakio.new 'my_api_token'
+          trakio.annotate event: 'event', properties: { details: 'details' }
+        end
       end
 
       context "when properties are not provided" do
-        pending
+        it "should send a request with empty properties" do
+          stub_request(:post, "https://api.trak.io/v1/annotate").
+            with(:body => {
+              token: 'my_api_token',
+              data: {
+                event: 'event',
+                properties: {},
+              }
+            }).to_return(:body => {
+              status: 'success',
+              trak_id: '1234567890',
+            }.to_json)
+
+          trakio = Trakio.new 'my_api_token'
+          trakio.annotate event: 'event'
+        end
       end
     end
 

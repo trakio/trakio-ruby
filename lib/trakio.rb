@@ -149,7 +149,7 @@ class Trakio
     }
     params[:channel] = channel if channel
     params[:properties] = properties if properties
-    send_request('alias', params)
+    send_request('annotate', params)
   end
 
   def page_view(parameters)
