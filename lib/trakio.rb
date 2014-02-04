@@ -6,7 +6,7 @@ require "json"
 class Trakio
 
   class Exceptions
-    class UnInitiated < RuntimeError; end
+    class Uninitiated < RuntimeError; end
     class InvalidToken < RuntimeError; end
     class NoDistinctIdForDefaultInstance < RuntimeError; end
   end
@@ -26,7 +26,7 @@ class Trakio
       if @default_instance
         @default_instance
       else
-        raise Trakio::Exceptions::UnInitiated
+        raise Trakio::Exceptions::Uninitiated
       end
     end
 

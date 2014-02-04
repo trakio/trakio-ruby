@@ -1,5 +1,6 @@
 require 'trakio'
 require 'webmock/rspec'
+require 'json'
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
