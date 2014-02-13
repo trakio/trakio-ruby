@@ -16,9 +16,27 @@ Or install it yourself as:
 
     $ gem install trakio-ruby
 
-## Usage
+## Examples
 
-TODO: Write usage instructions here
+For more indepth documentation see: http://docs.trak.io/ruby.html
+
+### Creating an instance, and then tracking an event.
+```ruby
+    # create the instance
+    trakio = Trakio.new 'my_api_token'
+    # track my-event
+    resp = trakio.track distinct_id: 'user@example.com', event: 'my-event'
+    # resp will look like { 'status': 'success', 'trak_id': '12345' }
+```
+
+### Creating a default instance, and then tracking an event.
+```ruby
+    # set token on default instance
+    Trakio.init 'my_api_token'
+    # track our event
+    resp = Trakio.track distinct_id: user@example.com', event: 'my-event'
+    # resp will look like { 'status': 'success', 'trak_id': '12345' }
+```
 
 ## Contributing
 
