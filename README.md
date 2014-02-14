@@ -1,7 +1,5 @@
 # Official trak.io Ruby Library
 
-# WARNING: Work in progress, this library is incomplete, it has been published but is subject to change.
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -34,8 +32,75 @@ For more indepth documentation see: http://docs.trak.io/ruby.html
     # set token on default instance
     Trakio.init 'my_api_token'
     # track our event
-    resp = Trakio.track distinct_id: user@example.com', event: 'my-event'
+    resp = Trakio.track distinct_id: 'user@example.com', event: 'my-event'
     # resp will look like { 'status': 'success', 'trak_id': '12345' }
+```
+
+### Creating an instance and aliasing an entry
+```ruby
+    # set token on default instance
+    Trakio.init 'my_api_token'
+
+    resp = Trakio.alias distinct_id: 'u1@example.com', alias: ['u2@example.com']
+    # resp will look like { 'status': 'success', 'trak_id': '12345', 'distinct_ids': ['u1@example.com', 'u2@example.com'] }
+
+    # an equivilent is shown below
+
+    resp = Trakio.alias distinct_id: 'u1@example.com', alias: 'u2@example.com'
+    # resp will look like { 'status': 'success', 'trak_id': '12345', 'distinct_ids': ['u1@example.com', 'u2@example.com'] }
+```
+
+### Creating an instance and using identify
+```ruby
+    # set token on default instance
+    Trakio.init 'my_api_token'
+
+    resp = Trakio.identify distinct_id: 'user@example.com', properties: { name: 'Tobie' }
+    # resp will look like { 'status': 'success', 'trak_id': '12345', 'distinct_ids': ['user@example.com'] }
+```
+
+### Creating an instance and using annotate
+```ruby
+    # set token on default instance
+    Trakio.init 'my_api_token'
+
+    resp = Trakio.annotate event: 'event', channel: 'channel'
+    # resp will look like { 'status': 'success', 'trak_id': '12345', 'properties': {} }
+```
+
+## Creating and Running Tests
+* Tests can be run by running the following commands `bundle exec rspec`
+* Tests can be added by either adding into an existing spec file, or creating a new one.
+
+### Example test
+An example test is shown below.
+
+```ruby
+require 'spec_helper'
+
+describe Trakio do
+
+  subject { Trakio }
+
+  after {
+    Trakio.default_instance = nil
+  }
+
+  describe '.track' do
+    context 'when a distinct_id is provided' do
+      context 'when an event is provided' do
+
+        it 'sends a track request' do
+          trakio = Trakio.new 'my-api-token'
+          response = trakio.track distinct_id: 'user@example.com', event: 'my-event'
+          # response will look like { 'status': 'success', 'trak_id': '12345678' }
+        end
+
+      end
+    end
+  end
+
+end
 ```
 
 ## Contributing
