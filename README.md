@@ -72,37 +72,6 @@ For more indepth documentation see: http://docs.trak.io/ruby.html
 * Tests can be run by running the following commands `bundle exec rspec`
 * Tests can be added by either adding into an existing spec file, or creating a new one.
 
-### Example test
-An example test is shown below.
-
-```ruby
-require 'spec_helper'
-
-describe Trakio do
-
-  subject { Trakio }
-
-  after {
-    Trakio.default_instance = nil
-  }
-
-  describe '.track' do
-    context 'when a distinct_id is provided' do
-      context 'when an event is provided' do
-
-        it 'sends a track request' do
-          trakio = Trakio.new 'my-api-token'
-          response = trakio.track distinct_id: 'user@example.com', event: 'my-event'
-          # response will look like { 'status': 'success', 'trak_id': '12345678' }
-        end
-
-      end
-    end
-  end
-
-end
-```
-
 ## Contributing
 
 1. Fork it
