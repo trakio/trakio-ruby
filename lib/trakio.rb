@@ -25,7 +25,7 @@ class Trakio
     def init(*args)
       api_token, params = args
       raise Trakio::Exceptions::InvalidToken.new('Missing API Token') unless api_token
-      raise Trakio::Exceptions::NoDistinctIdForDefaultInstance unless params and params.has_key?(:distinct_id)
+      raise Trakio::Exceptions::NoDistinctIdForDefaultInstance if params and params.has_key?(:distinct_id)
       @default_instance = Trakio.new(*args)
     end
 
