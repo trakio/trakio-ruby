@@ -154,6 +154,27 @@ class Trakio
     send_request('annotate', params)
   end
 
+  def page_view(parameters)
+    parameters.default = nil
+    args = {
+      event: 'Page view'
+    }
+
+    distinct_id = parameters[:distinct_id]
+    args[:distinct_id] = distinct_id if distinct_id
+
+    raise "Must specify URL" unless parameters.has_key?(:url)
+    raise "Must specify Title" unless parameters.has_key?(:title)
+
+    properties = {
+      url: parameters[:url],
+      title: parameters[:title],
+    }
+    args[:properties] = properties
+
+    track args  # right now page_view is an alias of track
+  end
+
   def send_request(endpoint, params)
     protocol = @https ? "https" : "http"
     url = "#{protocol}://#{@host}/#{endpoint}"
