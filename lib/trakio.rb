@@ -6,18 +6,18 @@ require "json"
 class Trakio
 
   class Exceptions
-    class Uninitiated < RuntimeError; end
-    class NoDistinctIdForDefaultInstance < RuntimeError; end
-    class DataObjectInvalidJson < RuntimeError; end
-    class DataObjectInvalidBase64 < RuntimeError; end
-    class DataObjectInvalidType < RuntimeError; end
-    class InvalidToken < RuntimeError; end
-    class MissingParameter < RuntimeError; end
-    class RouteNotFound < RuntimeError; end
-    class PropertiesObjectInvalid < RuntimeError; end
-    class RequestInvalidJson < RuntimeError; end
-    class RevenuePropertyInvalid < RuntimeError; end
-    class InternalServiceError < RuntimeError; end
+    class Uninitiated < StandardError; end
+    class NoDistinctIdForDefaultInstance < StandardError; end
+    class DataObjectInvalidJson < StandardError; end
+    class DataObjectInvalidBase64 < StandardError; end
+    class DataObjectInvalidType < StandardError; end
+    class InvalidToken < StandardError; end
+    class MissingParameter < StandardError; end
+    class RouteNotFound < StandardError; end
+    class PropertiesObjectInvalid < StandardError; end
+    class RequestInvalidJson < StandardError; end
+    class RevenuePropertyInvalid < StandardError; end
+    class InternalServiceError < StandardError; end
   end
 
   class << self
