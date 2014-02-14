@@ -25,18 +25,13 @@ class Trakio
     def init(*args)
       api_token, params = args
       raise Trakio::Exceptions::InvalidToken.new('Missing API Token') unless api_token
-      if params and params.has_key?(:distinct_id)
-        raise Trakio::Exceptions::NoDistinctIdForDefaultInstance
-      end
+      raise Trakio::Exceptions::NoDistinctIdForDefaultInstance unless params and params.has_key?(:distinct_id)
       @default_instance = Trakio.new(*args)
     end
 
     def default_instance
-      if @default_instance
-        @default_instance
-      else
-        raise Trakio::Exceptions::Uninitiated
-      end
+      raise Trakio::Exceptions::Uninitiated unless @default_instance
+      @default_instance
     end
 
     def default_instance=(instance)
@@ -76,9 +71,7 @@ class Trakio
     @host = 'api.trak.io/v1'
 
     %w{https host channel distinct_id}.each do |name|
-      if params && params.has_key?(name.to_sym)
-        instance_variable_set("@#{name}", params[name.to_sym])
-      end
+      instance_variable_set("@#{name}", params[name.to_sym]) if params && params.has_key?(name.to_sym)
     end
   end
 
