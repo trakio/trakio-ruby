@@ -1,5 +1,7 @@
 # Official trak.io Ruby Library
 
+[![Gem Version](https://badge.fury.io/rb/trakio-ruby.png)](http://badge.fury.io/rb/trakio-ruby)
+
 ## Installation
 
 Add this line to your application's Gemfile:
