@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["matt@trak.io", "tobie.warburton@gmail.com"]
   spec.description   = "Official trak.io ruby library for Ruby"
   spec.summary       = "Official trak.io ruby library for Ruby"
-  spec.homepage      = "https://github.com/trakio/trakio-ruby"
+  spec.homepage      = "https://trak.io"
   spec.license       = "Apache 2.0"
 
   spec.files         = `git ls-files`.split($/)
