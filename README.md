@@ -5,6 +5,7 @@
 [![Code Climate](https://codeclimate.com/github/trakio/trakio-ruby.png)](https://codeclimate.com/github/trakio/trakio-ruby)
 [![Build Status](https://travis-ci.org/trakio/trakio-ruby.png?branch=master)](https://travis-ci.org/trakio/trakio-ruby)
 [![Coverage Status](https://coveralls.io/repos/trakio/trakio-ruby/badge.png?branch=master)](https://coveralls.io/r/trakio/trakio-ruby?branch=master)
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/trakio/trakio-ruby/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 ## Installation
 
