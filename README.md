@@ -4,6 +4,7 @@
 [![Dependency Status](https://gemnasium.com/trakio/trakio-ruby.png)](https://gemnasium.com/trakio/trakio-ruby)
 [![Code Climate](https://codeclimate.com/github/trakio/trakio-ruby.png)](https://codeclimate.com/github/trakio/trakio-ruby)
 [![Build Status](https://travis-ci.org/trakio/trakio-ruby.png?branch=master)](https://travis-ci.org/trakio/trakio-ruby)
+[![Coverage Status](https://coveralls.io/repos/trakio/trakio-ruby/badge.png?branch=master)](https://coveralls.io/r/trakio/trakio-ruby?branch=master)
 
 ## Installation
 
