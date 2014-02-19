@@ -1,3 +1,5 @@
+require 'coveralls'
+Coveralls.wear!
 require 'trakio'
 require 'webmock/rspec'
 require 'json'

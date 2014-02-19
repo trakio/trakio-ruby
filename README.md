@@ -3,6 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/trakio-ruby.png)](http://badge.fury.io/rb/trakio-ruby)
 [![Dependency Status](https://gemnasium.com/trakio/trakio-ruby.png)](https://gemnasium.com/trakio/trakio-ruby)
 [![Code Climate](https://codeclimate.com/github/trakio/trakio-ruby.png)](https://codeclimate.com/github/trakio/trakio-ruby)
+[![Build Status](https://travis-ci.org/trakio/trakio-ruby.png?branch=master)](https://travis-ci.org/trakio/trakio-ruby)
 
 ## Installation
 
