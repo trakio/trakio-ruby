@@ -25,18 +25,13 @@ class Trakio
     def init(*args)
       api_token, params = args
       raise Trakio::Exceptions::InvalidToken.new('Missing API Token') unless api_token
-      if params and params.has_key?(:distinct_id)
-        raise Trakio::Exceptions::NoDistinctIdForDefaultInstance
-      end
+      raise Trakio::Exceptions::NoDistinctIdForDefaultInstance if params and params.has_key?(:distinct_id)
       @default_instance = Trakio.new(*args)
     end
 
     def default_instance
-      if @default_instance
-        @default_instance
-      else
-        raise Trakio::Exceptions::Uninitiated
-      end
+      raise Trakio::Exceptions::Uninitiated unless @default_instance
+      @default_instance
     end
 
     def default_instance=(instance)
@@ -76,9 +71,7 @@ class Trakio
     @host = 'api.trak.io/v1'
 
     %w{https host channel distinct_id}.each do |name|
-      if params && params.has_key?(name.to_sym)
-        instance_variable_set("@#{name}", params[name.to_sym])
-      end
+      instance_variable_set("@#{name}", params[name.to_sym]) if params && params.has_key?(name.to_sym)
     end
   end
 
@@ -159,6 +152,27 @@ class Trakio
     params[:channel] = channel if channel
     params[:properties] = properties if properties
     send_request('annotate', params)
+  end
+
+  def page_view(parameters)
+    parameters.default = nil
+    args = {
+      event: 'Page view'
+    }
+
+    distinct_id = parameters[:distinct_id]
+    args[:distinct_id] = distinct_id if distinct_id
+
+    raise "Must specify URL" unless parameters.has_key?(:url)
+    raise "Must specify Title" unless parameters.has_key?(:title)
+
+    properties = {
+      url: parameters[:url],
+      title: parameters[:title],
+    }
+    args[:properties] = properties
+
+    track args  # right now page_view is an alias of track
   end
 
   def send_request(endpoint, params)
