@@ -24,6 +24,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'webmock'
   spec.add_development_dependency 'fuubar'
   spec.add_development_dependency 'coveralls'
+  spec.add_development_dependency 'activesupport'
 
   spec.add_dependency 'rest_client'
 end

@@ -122,6 +122,64 @@ describe Trakio do
 
         end
 
+        context "when a time is provided as a DateTime" do
+
+          let (:time) { 3.days.ago }
+
+          it "sends a track request to api.trak.io" do
+            stub = stub_request(:post, "https://api.trak.io/v1/track").
+              with(:body => {
+                token: 'my_api_token',
+                data: {
+                  distinct_id: 'user@example.com',
+                  event: 'my-event',
+                  time: time.iso8601
+                }
+              }).to_return(:body => {
+                status: 'success',
+                trak_id: '1234567890'
+              }.to_json)
+
+            trakio = Trakio.new 'my_api_token'
+            resp = trakio.track distinct_id: 'user@example.com', event: 'my-event', time: time
+
+            expect(resp[:status]).to eql 'success'
+            expect(resp[:trak_id]).to eql '1234567890'
+
+            stub.should have_been_requested
+          end
+
+        end
+
+        context "when a time is provided as a string" do
+
+          let (:time) { 3.days.ago }
+
+          it "sends a track request to api.trak.io" do
+            stub = stub_request(:post, "https://api.trak.io/v1/track").
+              with(:body => {
+                token: 'my_api_token',
+                data: {
+                  distinct_id: 'user@example.com',
+                  event: 'my-event',
+                  time: time.iso8601
+                }
+              }).to_return(:body => {
+                status: 'success',
+                trak_id: '1234567890'
+              }.to_json)
+
+            trakio = Trakio.new 'my_api_token'
+            resp = trakio.track distinct_id: 'user@example.com', event: 'my-event', time: time.iso8601
+
+            expect(resp[:status]).to eql 'success'
+            expect(resp[:trak_id]).to eql '1234567890'
+
+            stub.should have_been_requested
+          end
+
+        end
+
       end
 
       context "when an event isn't provided" do

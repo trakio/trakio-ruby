@@ -93,6 +93,10 @@ class Trakio
       distinct_id: distinct_id,
       event: event,
     }
+    if parameters[:time]
+      params[:time] = parameters[:time]
+      params[:time] = params[:time].iso8601 unless params[:time].is_a? String
+    end
     params[:channel] = channel if channel
     params[:properties] = properties if properties
 

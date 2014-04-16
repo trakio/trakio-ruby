@@ -3,6 +3,8 @@ Coveralls.wear!
 require 'trakio'
 require 'webmock/rspec'
 require 'json'
+require 'active_support/core_ext/numeric/time'
+require 'active_support/core_ext/date/calculations'
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
