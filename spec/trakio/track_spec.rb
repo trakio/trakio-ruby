@@ -19,6 +19,7 @@ describe Trakio do
             with(:body => {
               token: 'my_api_token',
               data: {
+                time: /.+/,
                 distinct_id: 'user@example.com',
                 event: 'my-event'
               }
@@ -43,6 +44,7 @@ describe Trakio do
               with(:body => {
                 token: 'my_api_token',
                 data: {
+                  time: /.+/,
                   distinct_id: 'user@example.com',
                   event: 'my-event',
                   channel: 'my-channel'
@@ -71,6 +73,7 @@ describe Trakio do
               with(:body => {
                 token: 'my_api_token',
                 data: {
+                  time: /.+/,
                   distinct_id: 'user@example.com',
                   event: 'my-event',
                   channel: 'my-channel'
@@ -98,6 +101,7 @@ describe Trakio do
               with(:body => {
                 token: 'my_api_token',
                 data: {
+                  time: /.+/,
                   distinct_id: 'user@example.com',
                   event: 'my-event',
                   channel: 'my-channel',
@@ -215,6 +219,7 @@ describe Trakio do
             with(:body => {
               token: 'my_api_token',
               data: {
+                time: /.+/,
                 distinct_id: 'user@example.com',
                 event: 'my-event',
               }
