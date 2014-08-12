@@ -1,6 +1,7 @@
 require "trakio/version"
 require "rest_client"
 require "json"
+require "date"
 
 
 class Trakio
@@ -93,9 +94,11 @@ class Trakio
       distinct_id: distinct_id,
       event: event,
     }
-    if parameters[:time]
+    if parameters[:time] # if specified
       params[:time] = parameters[:time]
       params[:time] = params[:time].iso8601 unless params[:time].is_a? String
+    else # if nots specified default to now
+      params[:time] = DateTime.now.iso8601
     end
     params[:channel] = channel if channel
     params[:properties] = properties if properties

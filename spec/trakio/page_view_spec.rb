@@ -17,6 +17,7 @@ describe Trakio do
             with(:body => {
               token: 'my_api_token',
               data: {
+                time: /.+/,
                 distinct_id: 'user@example.com',
                 event: 'Page view',
                 properties: {
