@@ -30,7 +30,7 @@ describe Trakio do
         trakio = Trakio.new 'my_api_token'
         trakio.alias distinct_id: 'user@example.com', alias: ['alias1@example.com']
 
-        stub.should have_been_requested
+        expect(stub).to have_been_requested
       end
     end
 
@@ -52,7 +52,7 @@ describe Trakio do
         trakio = Trakio.new 'my_api_token'
         trakio.alias distinct_id: 'user@example.com', alias: 'alias1@example.com'
 
-        stub.should have_been_requested
+        expect(stub).to have_been_requested
       end
     end
 
@@ -83,7 +83,7 @@ describe Trakio do
           trakio = Trakio.new 'my_api_token', distinct_id: 'user@example.com'
           trakio.alias alias: 'alias1@example.com'
 
-          stub.should have_been_requested
+          expect(stub).to have_been_requested
         end
       end
 

@@ -51,14 +51,14 @@ describe Trakio do
       context "when a https is provided" do
         it "sets https option" do
           Trakio.init 'my_api_token', https: false
-          expect(Trakio.https).to be_false
+          expect(Trakio.https).to be false
         end
       end
 
       context "when a https isn't provided" do
         it "defaults to true" do
           Trakio.init 'my_api_token'
-          expect(Trakio.https).to be_true
+          expect(Trakio.https).to be true
         end
       end
 

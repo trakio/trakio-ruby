@@ -31,7 +31,7 @@ describe Trakio do
           trakio = Trakio.new 'my_api_token'
           trakio.identify distinct_id: 'user@example.com', properties: { name: 'Tobie' }
 
-          stub.should have_been_requested
+          expect(stub).to have_been_requested
         end
       end
     end
@@ -57,7 +57,7 @@ describe Trakio do
           trakio = Trakio.new 'my_api_token', distinct_id: 'user@example.com'
           trakio.identify properties: { name: 'Tobie' }
 
-          stub.should have_been_requested
+          expect(stub).to have_been_requested
         end
       end
     end

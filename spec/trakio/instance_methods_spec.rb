@@ -62,7 +62,7 @@ describe Trakio do
     it "sets whether https is to be used by this Interface" do
       trakio = Trakio.new 'api_token'
       trakio.https = false
-      expect(trakio.instance_variable_get('@https')).to be_false
+      expect(trakio.instance_variable_get('@https')).to be false
     end
 
   end
@@ -72,12 +72,12 @@ describe Trakio do
     it "returns the current value" do
       trakio = Trakio.new 'api_token'
       trakio.instance_variable_set('@https',false)
-      expect(trakio.https).to be_false
+      expect(trakio.https).to be false
     end
 
     it "defaults to true" do
       trakio = Trakio.new 'api_token'
-      expect(trakio.https).to be_true
+      expect(trakio.https).to be true
     end
 
   end

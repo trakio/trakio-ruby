@@ -34,7 +34,7 @@ describe Trakio do
           expect(resp[:status]).to eql 'success'
           expect(resp[:trak_id]).to eql '1234567890'
 
-          stub.should have_been_requested
+          expect(stub).to have_been_requested
         end
 
         context "when a channel is provided" do
@@ -61,7 +61,7 @@ describe Trakio do
             expect(resp[:status]).to eql 'success'
             expect(resp[:trak_id]).to eql '1234567890'
 
-            stub.should have_been_requested
+            expect(stub).to have_been_requested
           end
 
         end
@@ -89,7 +89,7 @@ describe Trakio do
             expect(resp[:status]).to eql 'success'
             expect(resp[:trak_id]).to eql '1234567890'
 
-            stub.should have_been_requested
+            expect(stub).to have_been_requested
           end
 
         end
@@ -121,7 +121,7 @@ describe Trakio do
             expect(resp[:status]).to eql 'success'
             expect(resp[:trak_id]).to eql '1234567890'
 
-            stub.should have_been_requested
+            expect(stub).to have_been_requested
           end
 
         end
@@ -150,7 +150,7 @@ describe Trakio do
             expect(resp[:status]).to eql 'success'
             expect(resp[:trak_id]).to eql '1234567890'
 
-            stub.should have_been_requested
+            expect(stub).to have_been_requested
           end
 
         end
@@ -179,7 +179,7 @@ describe Trakio do
             expect(resp[:status]).to eql 'success'
             expect(resp[:trak_id]).to eql '1234567890'
 
-            stub.should have_been_requested
+            expect(stub).to have_been_requested
           end
 
         end
@@ -231,7 +231,7 @@ describe Trakio do
           trakio = Trakio.new 'my_api_token', distinct_id: 'user@example.com'
           trakio.track event: 'my-event'
 
-          stub.should have_been_requested
+          expect(stub).to have_been_requested
         end
 
       end
