@@ -8,7 +8,7 @@ describe Trakio do
     Trakio.default_instance = nil
   }
 
-    describe '.annotate' do
+  describe '#annotate' do
 
     context "when an event is provided" do
 

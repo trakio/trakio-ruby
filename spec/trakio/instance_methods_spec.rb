@@ -8,7 +8,7 @@ describe Trakio do
     Trakio.default_instance = nil
   }
 
-  describe '.distinct_id=' do
+  describe '#distinct_id=' do
 
     it "sets the distinct_id to be used by this Interface" do
       trakio = Trakio.new 'api_token'
@@ -27,7 +27,7 @@ describe Trakio do
 
   end
 
-  describe '.distinct_id' do
+  describe '#distinct_id' do
 
     it "returns the current value" do
       trakio = Trakio.new 'api_token'
@@ -37,7 +37,7 @@ describe Trakio do
 
   end
 
-  describe '.channel=' do
+  describe '#channel=' do
 
     it "sets the channel to be used by this Interface" do
       trakio = Trakio.new 'api_token'
@@ -47,7 +47,7 @@ describe Trakio do
 
   end
 
-  describe '.channel' do
+  describe '#channel' do
 
     it "returns the current value" do
       trakio = Trakio.new 'api_token'
@@ -57,7 +57,7 @@ describe Trakio do
 
   end
 
-  describe '.https=' do
+  describe '#https=' do
 
     it "sets whether https is to be used by this Interface" do
       trakio = Trakio.new 'api_token'
@@ -67,7 +67,7 @@ describe Trakio do
 
   end
 
-  describe '.https' do
+  describe '#https' do
 
     it "returns the current value" do
       trakio = Trakio.new 'api_token'
@@ -82,7 +82,7 @@ describe Trakio do
 
   end
 
-  describe '.host=' do
+  describe '#host=' do
 
     it "sets the host to be used by this Interface" do
       trakio = Trakio.new 'api_token'
@@ -92,7 +92,7 @@ describe Trakio do
 
   end
 
-  describe '.host' do
+  describe '#host' do
 
     it "returns the current value" do
       trakio = Trakio.new 'api_token'

@@ -8,7 +8,7 @@ describe Trakio do
     Trakio.default_instance = nil
   }
 
-  describe '#default_instance' do
+  describe '.default_instance' do
 
     context "when a default instance hasn't been created" do
       it "raises an exception" do
@@ -25,7 +25,7 @@ describe Trakio do
 
   end
 
-  describe '#init' do
+  describe '.init' do
 
     context "when an API token is provided" do
 
@@ -86,7 +86,7 @@ describe Trakio do
 
   end
 
-  describe '#track' do
+  describe '.track' do
     it "calls track on the default Trakio instance" do
       default_instance = double(Trakio)
 
@@ -97,7 +97,7 @@ describe Trakio do
     end
   end
 
-  describe '#identify' do
+  describe '.identify' do
     it "calls identify on the default Trakio instance" do
       default_instance = double(Trakio)
 
@@ -108,7 +108,7 @@ describe Trakio do
     end
   end
 
-  describe '#alias' do
+  describe '.alias' do
     it "calls alias on the default Trakio instance" do
       default_instance = double(Trakio)
 
@@ -119,7 +119,7 @@ describe Trakio do
     end
   end
 
-  describe '#annotate' do
+  describe '.annotate' do
 
     it "calls annotate on the default Trakio instance" do
       default_instance = double(Trakio)
@@ -132,7 +132,7 @@ describe Trakio do
 
   end
 
-  describe '#page_view' do
+  describe '.page_view' do
 
     it "calls page_view on the default Trakio instance" do
       default_instance = double(Trakio)
@@ -146,13 +146,13 @@ describe Trakio do
   end
 
 
-  describe '#distinct_id' do
+  describe '.distinct_id' do
     it "raise an error" do
       expect{ Trakio.distinct_id }.to raise_error Trakio::Exceptions::NoDistinctIdForDefaultInstance
     end
   end
 
-  describe '#channel' do
+  describe '.channel' do
 
     it "calls channel on the default Trakio instance" do
       default_instance = double(Trakio)

@@ -8,7 +8,7 @@ describe Trakio do
     Trakio.default_instance = nil
   }
 
-  describe '.alias' do
+  describe '#alias' do
 
     context "when an array alias is provided" do
       it "sends an array" do
@@ -97,4 +97,5 @@ describe Trakio do
     end
 
   end
+
 end

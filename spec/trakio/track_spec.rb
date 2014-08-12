@@ -8,7 +8,7 @@ describe Trakio do
     Trakio.default_instance = nil
   }
 
-  describe '.track' do
+  describe '#track' do
 
     context "when a distinct_id is provided" do
 

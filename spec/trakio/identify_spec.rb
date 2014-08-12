@@ -8,7 +8,7 @@ describe Trakio do
     Trakio.default_instance = nil
   }
 
-  describe '.identify' do
+  describe '#identify' do
 
     context "when a distinct_id is provided" do
       context "when properties are provided" do

@@ -79,10 +79,6 @@ class Trakio
   def track(parameters)
     parameters.default = nil
 
-    distinct_id = parameters[:distinct_id]
-    distinct_id = @distinct_id unless distinct_id
-    raise "No distinct_id specified" unless distinct_id
-
     event = parameters[:event] or raise "No event specified"
 
     channel = parameters[:channel]
@@ -91,7 +87,7 @@ class Trakio
     properties = parameters[:properties]
 
     params = {
-      distinct_id: distinct_id,
+      distinct_id: distinct_id_from_parameters(parameters),
       event: event,
     }
     if parameters[:time] # if specified
@@ -109,15 +105,11 @@ class Trakio
   def identify(parameters)
     parameters.default = nil
 
-    distinct_id = parameters[:distinct_id]
-    distinct_id = @distinct_id unless distinct_id
-    raise "No distinct_id specified" unless distinct_id
-
     properties = parameters[:properties]
     raise "Properties must be specified" unless properties and properties.length > 0
 
     params = {
-      distinct_id: distinct_id,
+      distinct_id: distinct_id_from_parameters(parameters),
       properties: properties,
     }
     send_request('identify', params)
@@ -126,16 +118,12 @@ class Trakio
   def alias(parameters)
     parameters.default = nil
 
-    distinct_id = parameters[:distinct_id]
-    distinct_id = @distinct_id unless distinct_id
-    raise "No distinct_id specified" unless distinct_id
-
     alias_ = parameters[:alias]
     raise "No alias specified" unless alias_
     raise "alias must be string or array" unless alias_.is_a?(String) or alias_.is_a?(Array)
 
     params = {
-      distinct_id: distinct_id,
+      distinct_id: distinct_id_from_parameters(parameters),
       alias: alias_,
     }
     send_request('alias', params)
@@ -167,7 +155,7 @@ class Trakio
       event: 'Page view'
     }
 
-    distinct_id = parameters[:distinct_id]
+    distinct_id = distinct_id_from_parameters(parameters)
     args[:distinct_id] = distinct_id if distinct_id
 
     raise "Must specify URL" unless parameters.has_key?(:url)
@@ -228,6 +216,13 @@ class Trakio
         constant.const_get(name, false)
       end
     end
+  end
+
+  def distinct_id_from_parameters parameters
+    distinct_id = parameters[:distinct_id]
+    distinct_id = @distinct_id unless distinct_id
+    raise "No distinct_id specified" unless distinct_id
+    distinct_id
   end
 
 end

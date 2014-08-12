@@ -8,7 +8,7 @@ describe Trakio do
     Trakio.default_instance = nil
   }
 
-  describe '.initialize' do
+  describe '#initialize' do
 
     context "when an API token is provided" do
 

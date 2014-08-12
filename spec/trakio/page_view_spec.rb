@@ -8,7 +8,7 @@ describe Trakio do
     Trakio.default_instance = nil
   }
 
-  describe '.page_view' do
+  describe '#page_view' do
 
     context "when a url is specified" do
       context "when a title is specified" do

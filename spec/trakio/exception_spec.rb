@@ -8,7 +8,7 @@ describe Trakio do
     Trakio.default_instance = nil
   }
 
-  describe '.track' do
+  describe '#track' do
 
     context "when an error is returned by the API" do
       it "raises an exception" do
@@ -63,5 +63,6 @@ describe Trakio do
       end
     end
 
-  end # end .track
+  end
+
 end
