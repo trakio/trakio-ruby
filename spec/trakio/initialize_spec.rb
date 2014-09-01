@@ -36,6 +36,13 @@ describe Trakio do
         end
       end
 
+      context "when a company_id is provided" do
+        it "sets that for this instance" do
+          trakio = Trakio.new "my_api_token", company_id: 'acme_ltd'
+          expect(trakio.company_id).to eql 'acme_ltd'
+        end
+      end
+
       context "when a https option is provided" do
         it "sets https option" do
           trakio = Trakio.new 'my_api_token', https: false

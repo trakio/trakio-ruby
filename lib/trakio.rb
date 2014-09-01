@@ -9,6 +9,7 @@ class Trakio
   class Exceptions
     class Uninitiated < StandardError; end
     class NoDistinctIdForDefaultInstance < StandardError; end
+    class NoCompanyIdForDefaultInstance < StandardError; end
     class DataObjectInvalidJson < StandardError; end
     class DataObjectInvalidBase64 < StandardError; end
     class DataObjectInvalidType < StandardError; end
@@ -27,6 +28,7 @@ class Trakio
       api_token, params = args
       raise Trakio::Exceptions::InvalidToken.new('Missing API Token') unless api_token
       raise Trakio::Exceptions::NoDistinctIdForDefaultInstance if params and params.has_key?(:distinct_id)
+      raise Trakio::Exceptions::NoCompanyIdForDefaultInstance if params and params.has_key?(:company_id)
       @default_instance = Trakio.new(*args)
     end
 
@@ -39,13 +41,15 @@ class Trakio
       @default_instance = instance
     end
 
-    def distinct_id
+    def distinct_id value=nil
       raise Trakio::Exceptions::NoDistinctIdForDefaultInstance
     end
+    alias :distinct_id= :distinct_id
 
-    def distinct_id=(distinct_id)
-      raise Trakio::Exceptions::NoDistinctIdForDefaultInstance
+    def company_id value=nil
+      raise Trakio::Exceptions::NoCompanyIdForDefaultInstance
     end
+    alias :company_id= :company_id
 
     def method_missing(method, *args, &block)
       # passes to the default_instance so that
@@ -62,6 +66,7 @@ class Trakio
   attr_accessor :host
   attr_accessor :channel # channel is some form of category
   attr_accessor :distinct_id
+  attr_accessor :company_id
 
   def initialize(*args)
     api_token, params = args
@@ -71,12 +76,12 @@ class Trakio
     @https = true
     @host = 'api.trak.io/v1'
 
-    %w{https host channel distinct_id}.each do |name|
+    %w{https host channel distinct_id company_id}.each do |name|
       instance_variable_set("@#{name}", params[name.to_sym]) if params && params.has_key?(name.to_sym)
     end
   end
 
-  def track(parameters)
+  def track parameters
     parameters.default = nil
 
     event = parameters[:event] or raise "No event specified"
@@ -102,7 +107,7 @@ class Trakio
     send_request('track', params)
   end
 
-  def identify(parameters)
+  def identify parameters
     parameters.default = nil
 
     properties = parameters[:properties]
@@ -112,10 +117,24 @@ class Trakio
       distinct_id: distinct_id_from_parameters(parameters),
       properties: properties,
     }
-    send_request('identify', params)
+    send_request 'identify', params
   end
 
-  def alias(parameters)
+  def company parameters
+    parameters.default = nil
+
+    properties = parameters[:properties]
+    raise "Properties must be specified" unless properties and properties.length > 0
+
+    params = {
+      company_id: company_id_from_parameters(parameters),
+      properties: properties,
+    }
+    send_request 'company', params
+
+  end
+
+  def alias parameters
     parameters.default = nil
 
     alias_ = parameters[:alias]
@@ -129,7 +148,7 @@ class Trakio
     send_request('alias', params)
   end
 
-  def annotate(parameters)
+  def annotate parameters
     parameters.default = nil
 
     event = parameters[:event]
@@ -149,7 +168,7 @@ class Trakio
     send_request('annotate', params)
   end
 
-  def page_view(parameters)
+  def page_view parameters
     parameters.default = nil
     args = {
       event: 'Page view'
@@ -170,7 +189,7 @@ class Trakio
     track args  # right now page_view is an alias of track
   end
 
-  def send_request(endpoint, params)
+  def send_request endpoint, params
     protocol = @https ? "https" : "http"
     url = "#{protocol}://#{@host}/#{endpoint}"
     data = { token: @api_token, data: params }.to_json
@@ -187,7 +206,7 @@ class Trakio
 
   protected
 
-  def constantize(camel_cased_word) # Taken from ActiveSupport
+  def constantize camel_cased_word # Taken from ActiveSupport
     names = camel_cased_word.split('::')
 
     # Trigger a builtin NameError exception including the ill-formed constant in the message.
@@ -218,11 +237,13 @@ class Trakio
     end
   end
 
-  def distinct_id_from_parameters parameters
-    distinct_id = parameters[:distinct_id]
-    distinct_id = @distinct_id unless distinct_id
-    raise "No distinct_id specified" unless distinct_id
-    distinct_id
+  ['distinct','company'].each do |x|
+    define_method :"#{x}_id_from_parameters" do |parameters|
+      id = parameters[:"#{x}_id"]
+      id = self.instance_variable_get("@#{x}_id") unless id
+      raise "No #{x}_id specified" unless id
+      id
+    end
   end
 
 end
