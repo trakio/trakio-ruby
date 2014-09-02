@@ -63,7 +63,7 @@ describe Trakio do
       context "when properties are provided" do
         it "raises an error" do
           trakio = Trakio.new 'my_api_token'
-          expect { trakio.identify properties: { name: 'Acme Ltd' } }.to raise_error RuntimeError
+          expect { trakio.identify properties: { name: 'Acme Ltd' } }.to raise_error Trakio::Exceptions::MissingParameter
         end
       end
 

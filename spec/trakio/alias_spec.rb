@@ -59,7 +59,7 @@ describe Trakio do
     context "when no alias is provided" do
       it "raises an error" do
         trakio = Trakio.new 'my_api_token'
-        expect { trakio.alias distinct_id: 'user@example.com' }.to raise_error RuntimeError
+        expect { trakio.alias distinct_id: 'user@example.com' }.to raise_error Trakio::Exceptions::MissingParameter
       end
     end
 
@@ -90,7 +90,7 @@ describe Trakio do
       context "when there is not one set on the instance" do
         it "raises an error" do
           trakio = Trakio.new 'my_api_token'
-          expect { trakio.alias alias: 'alias1@example.com' }.to raise_error RuntimeError
+          expect { trakio.alias alias: 'alias1@example.com' }.to raise_error Trakio::Exceptions::MissingParameter
         end
       end
 

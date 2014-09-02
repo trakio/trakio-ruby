@@ -84,7 +84,10 @@ class Trakio
   def track parameters
     parameters.default = nil
 
-    event = parameters[:event] or raise "No event specified"
+    event = parameters[:event] || (raise Trakio::Exceptions::MissingParameter.new("event must be specified"))
+    distinct_id = parameters[:distinct_id] || @distinct_id
+    company_id = parameters[:company_id] || @company_id
+    distinct_id || company_id || (raise Trakio::Exceptions::MissingParameter.new('One of company_id or distinct_id must be specified'))
 
     channel = parameters[:channel]
     channel = @channel unless channel
@@ -92,9 +95,9 @@ class Trakio
     properties = parameters[:properties]
 
     params = {
-      distinct_id: distinct_id_from_parameters(parameters),
-      event: event,
+      event: event
     }
+
     if parameters[:time] # if specified
       params[:time] = parameters[:time]
       params[:time] = params[:time].iso8601 unless params[:time].is_a? String
@@ -103,6 +106,8 @@ class Trakio
     end
     params[:channel] = channel if channel
     params[:properties] = properties if properties
+    params[:company_id] = company_id if company_id
+    params[:distinct_id] = distinct_id if distinct_id
 
     send_request('track', params)
   end
@@ -111,10 +116,11 @@ class Trakio
     parameters.default = nil
 
     properties = parameters[:properties]
-    raise "Properties must be specified" unless properties and properties.length > 0
+    raise Trakio::Exceptions::MissingParameter.new("properties must be specified") unless properties and properties.length > 0
+    distinct_id = parameters[:distinct_id] || @distinct_id || (raise Trakio::Exceptions::MissingParameter.new('distinct_id must be specified'))
 
     params = {
-      distinct_id: distinct_id_from_parameters(parameters),
+      distinct_id: distinct_id,
       properties: properties,
     }
     send_request 'identify', params
@@ -125,9 +131,10 @@ class Trakio
 
     properties = parameters[:properties]
     raise "Properties must be specified" unless properties and properties.length > 0
+    company_id = parameters[:company_id] || @company_id || (raise Trakio::Exceptions::MissingParameter.new('company_id must be specified'))
 
     params = {
-      company_id: company_id_from_parameters(parameters),
+      company_id: company_id,
       properties: properties,
     }
     send_request 'company', params
@@ -138,11 +145,12 @@ class Trakio
     parameters.default = nil
 
     alias_ = parameters[:alias]
-    raise "No alias specified" unless alias_
+    raise Trakio::Exceptions::MissingParameter.new("alias must be specified") unless alias_
     raise "alias must be string or array" unless alias_.is_a?(String) or alias_.is_a?(Array)
+    distinct_id = parameters[:distinct_id] || @distinct_id || (raise Trakio::Exceptions::MissingParameter.new('distinct_id must be specified'))
 
     params = {
-      distinct_id: distinct_id_from_parameters(parameters),
+      distinct_id: distinct_id,
       alias: alias_,
     }
     send_request('alias', params)
@@ -161,7 +169,7 @@ class Trakio
     channel = @channel unless channel
 
     params = {
-      event: event,
+      event: event
     }
     params[:channel] = channel if channel
     params[:properties] = properties if properties
@@ -189,6 +197,8 @@ class Trakio
     track args  # right now page_view is an alias of track
   end
 
+  protected
+
   def send_request endpoint, params
     protocol = @https ? "https" : "http"
     url = "#{protocol}://#{@host}/#{endpoint}"
@@ -203,8 +213,6 @@ class Trakio
     message = result[:message] # extra information for the exception
     raise exception.new(message)
   end
-
-  protected
 
   def constantize camel_cased_word # Taken from ActiveSupport
     names = camel_cased_word.split('::')
@@ -241,7 +249,6 @@ class Trakio
     define_method :"#{x}_id_from_parameters" do |parameters|
       id = parameters[:"#{x}_id"]
       id = self.instance_variable_get("@#{x}_id") unless id
-      raise "No #{x}_id specified" unless id
       id
     end
   end
