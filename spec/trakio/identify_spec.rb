@@ -80,6 +80,85 @@ describe Trakio do
 
     end
 
+    context "when distinct_id and company_id are both set" do
+
+      context "via arguments" do
+
+        it "adds it to the company's people_distinct_ids" do
+          stub = stub_request(:post, "https://api.trak.io/v1/identify").
+            with(:body => {
+              token: 'my_api_token',
+              data: {
+                distinct_id: 'user@example.com',
+                properties: {
+                  name: 'Tobie',
+                  company: [{ company_id: 'massive_dynamics', role: 'widgets' }, { company_id: 'acme_ltd' }]
+                },
+              }
+            }.to_json).to_return(:body => {
+              status: 'success'
+            }.to_json)
+
+          trakio = Trakio.new 'my_api_token'
+          trakio.identify distinct_id: 'user@example.com', company_id: 'acme_ltd', properties: { name: 'Tobie', company: { company_id: 'massive_dynamics', role: 'widgets' } }
+
+          expect(stub).to have_been_requested
+        end
+
+      end
+
+      context "via configuration" do
+
+        it "adds it to the company's people_distinct_ids" do
+          stub = stub_request(:post, "https://api.trak.io/v1/identify").
+            with(:body => {
+              token: 'my_api_token',
+              data: {
+                distinct_id: 'user@example.com',
+                properties: {
+                  name: 'Tobie',
+                  company: [{ company_id: 'massive_dynamics', role: 'widgets' }, { company_id: 'monarch', role: 'widgets' }, { company_id: 'acme_ltd' }],
+                },
+              }
+            }.to_json).to_return(:body => {
+              status: 'success'
+            }.to_json)
+
+          trakio = Trakio.new 'my_api_token', distinct_id: 'user@example.com', company_id: 'acme_ltd'
+          trakio.identify properties: { name: 'Tobie', company: [{ company_id: 'massive_dynamics', role: 'widgets' }], companies: [{ company_id: 'monarch', role: 'widgets' }]  }
+
+          expect(stub).to have_been_requested
+        end
+
+      end
+
+      context "but company is also passed in properties" do
+
+        it "doesn't send duplicates" do
+          stub = stub_request(:post, "https://api.trak.io/v1/identify").
+            with(:body => {
+              token: 'my_api_token',
+              data: {
+                distinct_id: 'user@example.com',
+                properties: {
+                  name: 'Tobie',
+                  company: [{ company_id: 'massive_dynamics', role: 'widgets' }, { company_id: 'monarch', role: 'widgets' }],
+                },
+              }
+            }.to_json).to_return(:body => {
+              status: 'success'
+            }.to_json)
+
+          trakio = Trakio.new 'my_api_token', distinct_id: 'user@example.com', company_id: 'monarch'
+          trakio.identify properties: { name: 'Tobie', company: [{ company_id: 'massive_dynamics', role: 'widgets' }], companies: [{ company_id: 'monarch', role: 'widgets' }]  }
+
+          expect(stub).to have_been_requested
+        end
+
+      end
+
+    end
+
   end
 
 end

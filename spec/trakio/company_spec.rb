@@ -91,7 +91,7 @@ describe Trakio do
 
         end
 
-        context "via arguments" do
+        context "via configuration" do
 
           it "adds it to the company's people_distinct_ids" do
             stub = stub_request(:post, "https://api.trak.io/v1/company").

@@ -116,14 +116,35 @@ class Trakio
   def identify parameters
     parameters.default = nil
 
-    properties = parameters[:properties]
-    raise Trakio::Exceptions::MissingParameter.new("properties must be specified") unless properties and properties.length > 0
+    properties = parameters[:properties] || {}
+    raise Trakio::Exceptions::MissingParameter.new("properties must be specified") if !properties.is_a?(Hash)
     distinct_id = parameters[:distinct_id] || @distinct_id || (raise Trakio::Exceptions::MissingParameter.new('distinct_id must be specified'))
 
     params = {
       distinct_id: distinct_id,
       properties: properties,
     }
+
+    # Company must be an array
+    params[:properties][:company] ||= []
+    unless params[:properties][:company].is_a?(Array)
+      params[:properties][:company] = [params[:properties][:company]]
+    end
+
+    # Merge companies and company
+    params[:properties][:company] += params[:properties].delete(:companies) || []
+
+    # Inject current company
+    if
+      (c_id = (parameters[:company_id] || company_id)) &&
+      params[:properties][:company].none?{ |x| x[:company_id] == c_id }
+    then
+      params[:properties][:company] << { company_id: c_id }
+    end
+
+    # Clean up company
+    params[:properties].delete(:company) if params[:properties][:company].empty?
+
     send_request 'identify', params
   end
 
