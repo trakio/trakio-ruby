@@ -15,6 +15,7 @@ class Trakio
     class DataObjectInvalidType < StandardError; end
     class InvalidToken < StandardError; end
     class MissingParameter < StandardError; end
+    class InvalidParameter < StandardError; end
     class RouteNotFound < StandardError; end
     class PropertiesObjectInvalid < StandardError; end
     class RequestInvalidJson < StandardError; end
@@ -126,17 +127,25 @@ class Trakio
     send_request 'identify', params
   end
 
-  def company parameters
-    parameters.default = nil
+  def company p
+    p.default = nil
 
-    properties = parameters[:properties]
+    properties = p[:properties]
     raise "Properties must be specified" unless properties and properties.length > 0
-    company_id = parameters[:company_id] || @company_id || (raise Trakio::Exceptions::MissingParameter.new('company_id must be specified'))
+    raise Trakio::Exceptions::InvalidParameter.new('The `people_distinct_ids` parameter must be an array.') if p[:people_distinct_ids] && !p[:people_distinct_ids].is_a?(Array)
+    company_id = p[:company_id] || @company_id || (raise Trakio::Exceptions::MissingParameter.new('company_id must be specified'))
 
     params = {
       company_id: company_id,
       properties: properties,
     }
+
+    ids = p[:people_distinct_ids] || []
+    (ids) << (p[:distinct_id] || distinct_id)
+    ids.reject!(&:nil?)
+    ids.map!(&:to_s)
+    params[:people_distinct_ids] = ids unless ids.empty?
+
     send_request 'company', params
 
   end
