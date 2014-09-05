@@ -39,16 +39,6 @@ describe Trakio do
           expect(stub).to have_been_requested
         end
       end
-
-      context "when a title is not specified" do
-        it "raises an error" do
-          trakio = Trakio.new 'my_api_token'
-          expect {
-            trakio.page_view distinct_id: 'user@example.com',
-              url: 'http://test.test/test'
-          }.to raise_error RuntimeError
-        end
-      end
     end
 
     context "when a url is not specified" do
@@ -56,16 +46,7 @@ describe Trakio do
         trakio = Trakio.new 'my_api_token'
         expect {
           trakio.page_view distinct_id: 'user@example.com'
-        }.to raise_error RuntimeError
-      end
-
-      context "when a title is specified" do
-        it "raises an error" do
-          trakio = Trakio.new 'my_api_token'
-          expect {
-            trakio.page_view distinct_id: 'user@example.com', title: 'Test Title'
-          }.to raise_error RuntimeError
-        end
+        }.to raise_error Trakio::Exceptions::InvalidParameter
       end
     end
 

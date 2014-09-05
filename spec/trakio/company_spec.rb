@@ -142,13 +142,6 @@ describe Trakio do
 
     end
 
-    context "when properties aren't provided" do
-      it "raises an error" do
-        trakio = Trakio.new 'my_api_token', company_id: 'acme_ltd'
-        expect { trakio.identify }.to raise_error ArgumentError
-      end
-    end
-
   end
 
 end

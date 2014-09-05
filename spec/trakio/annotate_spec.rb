@@ -109,21 +109,14 @@ describe Trakio do
       context "when a channel is provided" do
         it "raises an error" do
           trakio = Trakio.new 'my_api_token'
-          expect { trakio.annotate channel: 'channel' }.to raise_error RuntimeError
+          expect { trakio.annotate channel: 'channel' }.to raise_error Trakio::Exceptions::MissingParameter
         end
       end
 
       context "when properties are provided" do
         it "raises an error" do
           trakio = Trakio.new 'my_api_token'
-          expect { trakio.annotate properties: { name: 'tobie' } }.to raise_error RuntimeError
-        end
-      end
-
-      context "when no arguments are provided" do
-        it "raises an error" do
-          trakio = Trakio.new 'my_api_token'
-          expect { trakio.annotate }.to raise_error ArgumentError
+          expect { trakio.annotate properties: { name: 'tobie' } }.to raise_error Trakio::Exceptions::MissingParameter
         end
       end
 
