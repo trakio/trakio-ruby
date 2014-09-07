@@ -24,9 +24,11 @@ class Trakio
       end
 
       # Company must be an array
-      properties[:company] ||= []
-      unless properties[:company].is_a?(Array)
-        properties[:company] = [properties[:company]]
+      [:company, :companies].each do |x|
+        properties[x] ||= []
+        unless properties[x].is_a?(Array)
+          properties[x] = [properties[x]]
+        end
       end
 
       # Merge companies and company
