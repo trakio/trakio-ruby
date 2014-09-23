@@ -3,6 +3,7 @@ Coveralls.wear!
 require 'trakio'
 require 'webmock/rspec'
 require 'json'
+require 'pry'
 require 'active_support/core_ext/numeric/time'
 require 'active_support/core_ext/date/calculations'
 

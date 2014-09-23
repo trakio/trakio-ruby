@@ -190,22 +190,94 @@ describe Trakio do
 
         it "raises an exception" do
           trakio = Trakio.new 'my_api_token'
-          expect { trakio.track distinct_id: 'user@example.com' }.to raise_error RuntimeError
+          expect { trakio.track distinct_id: 'user@example.com' }.to raise_error Trakio::Exceptions::MissingParameter
         end
 
       end
 
     end
 
-    context "when a distinct_id isn't provided" do
+    context "when a company_id is provided as an argument" do
 
-      context "when an event is provided" do
+      it "sends a track request to api.trak.io" do
+        stub = stub_request(:post, "https://api.trak.io/v1/track").
+          with(:body => {
+            token: 'my_api_token',
+            data: {
+              time: /.+/,
+              company_id: 'acme_ltd',
+              event: 'my-event'
+            }
+          }).to_return(:body => {
+            status: 'success',
+          }.to_json)
 
-        it "raises an error" do
-          trakio = Trakio.new 'my_api_token'
-          expect { trakio.track event: 'my-event' }.to raise_error RuntimeError
-        end
+        trakio = Trakio.new 'my_api_token'
+        resp = trakio.track company_id: 'acme_ltd', event: 'my-event'
 
+        expect(resp[:status]).to eql 'success'
+
+        expect(stub).to have_been_requested
+      end
+
+    end
+
+    context "when a company_id is configured" do
+
+      it "sends a track request to api.trak.io" do
+        stub = stub_request(:post, "https://api.trak.io/v1/track").
+          with(:body => {
+            token: 'my_api_token',
+            data: {
+              time: /.+/,
+              company_id: 'acme_ltd',
+              event: 'my-event'
+            }
+          }).to_return(:body => {
+            status: 'success'
+          }.to_json)
+
+        trakio = Trakio.new 'my_api_token', company_id: 'acme_ltd'
+        resp = trakio.track event: 'my-event'
+
+        expect(resp[:status]).to eql 'success'
+
+        expect(stub).to have_been_requested
+      end
+
+    end
+
+    context "when both a company_id and distinct_id are provided as arguments" do
+
+      it "sends a track request to api.trak.io" do
+        stub = stub_request(:post, "https://api.trak.io/v1/track").
+          with(:body => {
+            token: 'my_api_token',
+            data: {
+              time: /.+/,
+              distinct_id: '1234567',
+              company_id: 'acme_ltd',
+              event: 'my-event'
+            }
+          }).to_return(:body => {
+            status: 'success'
+          }.to_json)
+
+        trakio = Trakio.new 'my_api_token'
+        resp = trakio.track event: 'my-event', distinct_id: '1234567', company_id: 'acme_ltd'
+
+        expect(resp[:status]).to eql 'success'
+
+        expect(stub).to have_been_requested
+      end
+
+    end
+
+    context "when neither distinct_id or company_id is provided" do
+
+      it "raises an error" do
+        trakio = Trakio.new 'my_api_token'
+        expect { trakio.track event: 'my-event' }.to raise_error Trakio::Exceptions::MissingParameter
       end
 
     end

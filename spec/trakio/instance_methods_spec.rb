@@ -37,6 +37,35 @@ describe Trakio do
 
   end
 
+  describe '#company_id=' do
+
+    it "sets the company_id to be used by this Interface" do
+      trakio = Trakio.new 'api_token'
+      trakio.company_id = 'acme_ltd'
+      expect(trakio.instance_variable_get('@company_id')).to eql 'acme_ltd'
+    end
+
+    context "when this is the default Interface" do
+
+      it "raises an exception" do
+        Trakio.init 'my_api_token'
+        expect{ Trakio.company_id = 'acme_ltd' }.to raise_error Trakio::Exceptions::NoCompanyIdForDefaultInstance
+      end
+
+    end
+
+  end
+
+  describe '#company_id' do
+
+    it "returns the current value" do
+      trakio = Trakio.new 'api_token'
+      trakio.instance_variable_set('@company_id','acme_ltd')
+      expect(trakio.company_id).to eql 'acme_ltd'
+    end
+
+  end
+
   describe '#channel=' do
 
     it "sets the channel to be used by this Interface" do

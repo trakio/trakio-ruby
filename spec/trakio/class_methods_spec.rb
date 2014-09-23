@@ -41,6 +41,14 @@ describe Trakio do
         end
       end
 
+      context "when a company_id is provided" do
+        it "raises an exception" do
+          expect{
+            Trakio.init 'my_api_token', company_id: 'acme_ldt'
+          }.to raise_error Trakio::Exceptions::NoCompanyIdForDefaultInstance
+        end
+      end
+
       context "when a channel is provided" do
         it "sets the channel option" do
           Trakio.init 'my_api_token', channel: 'my-channel'
@@ -145,10 +153,28 @@ describe Trakio do
 
   end
 
+  describe '.company' do
+    it "calls company on the default Trakio instance" do
+      default_instance = double(Trakio)
+
+      Trakio.default_instance = default_instance
+      expect(Trakio.default_instance).to receive(:company)
+
+      Trakio.company
+    end
+  end
+
 
   describe '.distinct_id' do
     it "raise an error" do
       expect{ Trakio.distinct_id }.to raise_error Trakio::Exceptions::NoDistinctIdForDefaultInstance
+    end
+  end
+
+
+  describe '.company_id' do
+    it "raise an error" do
+      expect{ Trakio.company_id }.to raise_error Trakio::Exceptions::NoCompanyIdForDefaultInstance
     end
   end
 

@@ -31,7 +31,7 @@ For more indepth documentation see: http://docs.trak.io/ruby.html
     trakio = Trakio.new 'my_api_token'
     # track my-event
     resp = trakio.track distinct_id: 'user@example.com', event: 'my-event'
-    # resp will look like { 'status': 'success', 'trak_id': '12345' }
+    # resp will look like { 'status': 'success' }
 ```
 
 ### Creating a default instance, and then tracking an event.
@@ -39,9 +39,10 @@ For more indepth documentation see: http://docs.trak.io/ruby.html
     # set token on default instance
     Trakio.init 'my_api_token'
     # track our event
-    resp = Trakio.track distinct_id: 'user@example.com', event: 'my-event'
-    # resp will look like { 'status': 'success', 'trak_id': '12345' }
+    resp = Trakio.track distinct_id: 'user@example.com', company_id: 'acme_ltd', event: 'my-event'
+    # resp will look like { 'status': 'success' }
 ```
+
 
 ### Creating an instance and aliasing an entry
 ```ruby
@@ -49,12 +50,12 @@ For more indepth documentation see: http://docs.trak.io/ruby.html
     Trakio.init 'my_api_token'
 
     resp = Trakio.alias distinct_id: 'u1@example.com', alias: ['u2@example.com']
-    # resp will look like { 'status': 'success', 'trak_id': '12345', 'distinct_ids': ['u1@example.com', 'u2@example.com'] }
+    # resp will look like { 'status': 'success' }
 
     # an equivilent is shown below
 
     resp = Trakio.alias distinct_id: 'u1@example.com', alias: 'u2@example.com'
-    # resp will look like { 'status': 'success', 'trak_id': '12345', 'distinct_ids': ['u1@example.com', 'u2@example.com'] }
+    # resp will look like { 'status': 'success' }
 ```
 
 ### Creating an instance and using identify
@@ -63,7 +64,16 @@ For more indepth documentation see: http://docs.trak.io/ruby.html
     Trakio.init 'my_api_token'
 
     resp = Trakio.identify distinct_id: 'user@example.com', properties: { name: 'Tobie' }
-    # resp will look like { 'status': 'success', 'trak_id': '12345', 'distinct_ids': ['user@example.com'] }
+    # resp will look like { 'status': 'success' }
+```
+
+### Creating an instance and using company
+```ruby
+    # set token on default instance
+    Trakio.init 'my_api_token'
+
+    resp = Trakio.company company_id: 'acme_ltd', properties: { name: 'Tobie' }
+    # resp will look like { 'status': 'success' }
 ```
 
 ### Creating an instance and using annotate
@@ -72,7 +82,7 @@ For more indepth documentation see: http://docs.trak.io/ruby.html
     Trakio.init 'my_api_token'
 
     resp = Trakio.annotate event: 'event', channel: 'channel'
-    # resp will look like { 'status': 'success', 'trak_id': '12345', 'properties': {} }
+    # resp will look like { 'status': 'success' }
 ```
 
 ## Creating and Running Tests
