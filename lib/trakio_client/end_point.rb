@@ -1,4 +1,4 @@
-class Trakio
+module TrakioClient
   class EndPoint
 
     extend Forwardable
@@ -27,7 +27,7 @@ class Trakio
 
         # status must be error
         # here we will raise the required exception as in the API
-        exception = constantize(result[:exception].sub! 'TrakioAPI::', 'Trakio::') # name of the class
+        exception = constantize("TrakioClient::Exceptions::#{result[:exception]}") # name of the class
         message = result[:message] # extra information for the exception
         raise exception.new(message)
       end

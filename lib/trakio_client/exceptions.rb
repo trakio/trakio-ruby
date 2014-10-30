@@ -1,4 +1,4 @@
-class Trakio
+module TrakioClient
 
   class Exceptions
     class Uninitiated < StandardError; end

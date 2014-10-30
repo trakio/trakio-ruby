@@ -23,7 +23,7 @@ describe Trakio do
           }).to_return(:body => {
             status: 'error',
             code: 401,
-            exception: "TrakioAPI::Exceptions::InvalidToken",
+            exception: "InvalidToken",
             message: "Missing or invalid API token.",
             details: "You must provide a valid API token, see http://docs.trak.io/authentication.html."
           }.to_json)

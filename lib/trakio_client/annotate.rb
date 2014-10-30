@@ -1,4 +1,4 @@
-class Trakio
+module TrakioClient
   class Annotate < EndPoint
 
     def run p = {}
@@ -18,10 +18,10 @@ class Trakio
 
     def check_parameters event, properties
       unless event
-        raise Trakio::Exceptions::MissingParameter.new("The `event` parameter must be provided.")
+        raise Exceptions::MissingParameter.new("The `event` parameter must be provided.")
       end
       unless properties.is_a?(Hash)
-        raise Trakio::Exceptions::InvalidParameter.new("The `properties` parameter must be a hash.")
+        raise Exceptions::InvalidParameter.new("The `properties` parameter must be a hash.")
       end
     end
 

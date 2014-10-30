@@ -1,4 +1,4 @@
-class Trakio
+module TrakioClient
   class Company < EndPoint
 
     def run p = {}
@@ -27,13 +27,13 @@ class Trakio
 
     def check_parameters company_id, properties, distinct_ids
       if !company_id
-        raise Trakio::Exceptions::MissingParameter.new('The `company_id` parameter must be provided.')
+        raise Exceptions::MissingParameter.new('The `company_id` parameter must be provided.')
       end
       if !properties.is_a?(Hash)
-        raise Trakio::Exceptions::InvalidParameter.new("The `properties` parameter must be a hash.")
+        raise Exceptions::InvalidParameter.new("The `properties` parameter must be a hash.")
       end
       if !distinct_ids.is_a?(Array)
-        raise Trakio::Exceptions::InvalidParameter.new('The `people_distinct_ids` parameter must be an array.')
+        raise Exceptions::InvalidParameter.new('The `people_distinct_ids` parameter must be an array.')
       end
     end
 

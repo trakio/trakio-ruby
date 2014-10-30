@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'trakio/version'
+require 'trakio_api/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "trakio-ruby"
-  spec.version       = Trakio::VERSION
+  spec.version       = TrakioClient::VERSION
   spec.authors       = ["Matthew Spence", "Tobie Warburton"]
   spec.email         = ["matt@trak.io", "tobie.warburton@gmail.com"]
   spec.description   = "Official trak.io ruby library for Ruby"

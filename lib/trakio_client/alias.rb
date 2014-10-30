@@ -1,4 +1,4 @@
-class Trakio
+module TrakioClient
   class Alias < EndPoint
 
     def run p = {}
@@ -10,19 +10,19 @@ class Trakio
         distinct_id: distinct_id,
         alias: alias_,
       }
-      
+
       send_request('alias', params)
     end
 
     def check_parameters alias_, distinct_id
       unless distinct_id
-        raise Trakio::Exceptions::MissingParameter.new('The `distinct_id` parameter must be provided.')
+        raise Exceptions::MissingParameter.new('The `distinct_id` parameter must be provided.')
       end
       unless alias_
-        raise Trakio::Exceptions::MissingParameter.new('The `alias` parameter must be provided.')
+        raise Exceptions::MissingParameter.new('The `alias` parameter must be provided.')
       end
       unless alias_.is_a?(String) or alias_.is_a?(Array)
-        raise Trakio::Exceptions::InvalidParameter.new('The `alias` parameter must be a string or an array.')
+        raise Exceptions::InvalidParameter.new('The `alias` parameter must be a string or an array.')
       end
     end
 
