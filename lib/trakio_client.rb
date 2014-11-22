@@ -55,7 +55,7 @@ module TrakioClient
     def method_missing(method, *args, &block)
       # passes to the default_instance so that
       # Trakio.channel returns Trakio.default_instance.channel
-      @default_instance.send(method, *args, &block)
+      self.default_instance.send(method, *args, &block)
     end
 
   end
