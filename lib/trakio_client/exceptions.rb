@@ -16,6 +16,7 @@ module TrakioClient
     class PropertiesObjectInvalid < StandardError; end
     class RequestInvalidJson < StandardError; end
     class RevenuePropertyInvalid < StandardError; end
+    class TrialExpired < StandardError; end
     class InternalServiceError < StandardError; end
   end
 
