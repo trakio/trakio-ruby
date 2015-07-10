@@ -91,13 +91,13 @@ For more indepth documentation see: http://docs.trak.io/ruby.html
     Trakio.init 'my_api_token', api_secret_key: 'my_api_secret_key'
 
     resp = Trakio.score distinct_id: 'a_distinct_id'
-    # resp will look like { 'status': 'success' }
+    # resp will look like {  "status": "success", "score": 333, "score_history": { "2015-06-09": 333, "2015-06-08": 333, "2015-06-07": 333 } }
 
     # create the instance
     trakio = Trakio.new 'my_api_token', api_secret_key: 'my_api_secret_key'
 
     resp = trakio.score distinct_id: 'a_distinct_id'
-    # resp will look like { 'status': 'success' }
+    # resp will look like {  "status": "success", "score": 333, "score_history": { "2015-06-09": 333, "2015-06-08": 333, "2015-06-07": 333 } }
 ```
 
 ## Creating and Running Tests
