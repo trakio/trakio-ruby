@@ -5,6 +5,7 @@ module TrakioClient
 
     attr_accessor :trakio
     def_delegator :@trakio, :api_token
+    def_delegator :@trakio, :api_secret_key
     def_delegator :@trakio, :https
     def_delegator :@trakio, :host
     def_delegator :@trakio, :channel
@@ -17,11 +18,18 @@ module TrakioClient
 
     protected
 
-      def send_request endpoint, params
+      def send_request endpoint, params, use_key=false
         protocol = https ? "https" : "http"
         url = "#{protocol}://#{host}/#{endpoint}"
-        data = { token: api_token, data: params }.to_json
-        resp = RestClient.post url, data, :content_type => :json, :accept => :json
+
+        if use_key
+          params_url = "?#{params.keys.first}=#{params.values.first}"
+          resp = RestClient.get url + params_url, key: api_secret_key
+        else
+          data = { token: api_token, data: params }.to_json
+          resp = RestClient.post url, data, :content_type => :json, :accept => :json
+        end
+
         result = JSON.parse(resp.body, :symbolize_names => true)
         return result if result[:status] == 'success'
 

@@ -5,6 +5,7 @@ require "trakio_client/company"
 require "trakio_client/exceptions"
 require "trakio_client/identify"
 require "trakio_client/track"
+require "trakio_client/score"
 require "trakio_client/version"
 require "rest_client"
 require "json"
@@ -16,6 +17,7 @@ module TrakioClient
   def self.included base
     base.extend ClassMethods
     base.send :attr_accessor, :api_token
+    base.send :attr_accessor, :api_secret_key
     base.send :attr_accessor, :https
     base.send :attr_accessor, :host
     base.send :attr_accessor, :channel
@@ -68,11 +70,12 @@ module TrakioClient
     @https = true
     @host = 'api.trak.io/v1'
 
-    %w{https host channel distinct_id company_id}.each do |name|
+    %w{https host channel distinct_id company_id api_secret_key}.each do |name|
       instance_variable_set("@#{name}", params[name.to_sym]) if params && params.has_key?(name.to_sym)
     end
   end
 
+  # write api endpoints
   ['Alias', 'Annotate', 'Company', 'Identify', 'Track'].each do |method_object|
     TrakioClient.module_eval "
       def #{method_object.downcase} *args
@@ -80,6 +83,18 @@ module TrakioClient
         @#{method_object.downcase}.run(*args)
       end
     "
+  end
+
+  # read api endpoints
+  # checks for api_secret_key before running
+  ['Score'].each do |method_object|
+    TrakioClient.module_eval "
+      def #{method_object.downcase} *args
+        raise Exceptions::InvalidKey.new('Missing API Secret Key') unless api_secret_key
+        @#{method_object.downcase} ||= TrakioClient::#{method_object}.new(self)
+        @#{method_object.downcase}.run(*args)
+      end
+      "
   end
 
   def page_view *args

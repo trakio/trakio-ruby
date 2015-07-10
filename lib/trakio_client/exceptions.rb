@@ -8,6 +8,7 @@ module TrakioClient
     class DataObjectInvalidBase64 < StandardError; end
     class DataObjectInvalidType < StandardError; end
     class InvalidToken < StandardError; end
+    class InvalidKey < StandardError; end
     class MissingParameter < StandardError; end
     class InvalidParameter < StandardError; end
     class MissingProperty < StandardError; end
