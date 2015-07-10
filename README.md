@@ -85,6 +85,21 @@ For more indepth documentation see: http://docs.trak.io/ruby.html
     # resp will look like { 'status': 'success' }
 ```
 
+### Creating an instance and using score
+```ruby
+    # set token and key on default instance
+    Trakio.init 'my_api_token', api_secret_key: 'my_api_secret_key'
+
+    resp = Trakio.score distinct_id: 'a_distinct_id'
+    # resp will look like { 'status': 'success' }
+
+    # create the instance
+    trakio = Trakio.new 'my_api_token', api_secret_key: 'my_api_secret_key'
+
+    resp = trakio.score distinct_id: 'a_distinct_id'
+    # resp will look like { 'status': 'success' }
+```
+
 ## Creating and Running Tests
 * Tests can be run by running the following commands `bundle exec rspec`
 * Tests can be added by either adding into an existing spec file, or creating a new one.
