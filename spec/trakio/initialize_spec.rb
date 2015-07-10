@@ -21,6 +21,19 @@ describe Trakio do
         expect(trakio.api_token).to eql 'my_api_token'
       end
 
+      context "when a API secret key is provided" do
+
+        it "creates a new Trakio instance" do
+          expect(Trakio.new 'my_api_token', api_secret_key: 'my_api_secret_key').to be_a Trakio
+        end
+
+        it "sets the API token for this instance" do
+          trakio = Trakio.new 'my_api_token', api_secret_key: 'my_api_secret_key'
+          expect(trakio.api_token).to eql 'my_api_token'
+          expect(trakio.api_secret_key).to eql 'my_api_secret_key'
+        end
+
+      end
 
       context "when a channel is provided" do
         it "sets channel for this instance" do
